@@ -2,7 +2,7 @@ clear all; close all; clc;
 
 %% Import data
 
-Data_dir = dir('Data\Reference');
+Data_dir = dir('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data');
 Data_name=Data_dir(3).name;
 ground_Truth = imread(strcat('Data\Reference\',char(Data_name)));
 
