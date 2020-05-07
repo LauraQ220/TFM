@@ -15,7 +15,9 @@ function montage = montageImages(Data_dir)
 
     for i = 1:n_channels
         current_ch_dir = dir([Data_dir '\Channels\' channel_dirs(i+2).name]);
-        n_frames = length(current_ch_dir) - 2;
+        n_frames = 2;
+%                 n_frames = length(current_ch_dir) - 2;
+
 %         n_frames = 2;
         for j = 1:n_frames
             original_frames(:,:,i,j) = imread([Data_dir '\Channels\' channel_dirs(i+2).name '\frame' num2str(j-1) '.tif']);
@@ -97,6 +99,6 @@ function montage = montageImages(Data_dir)
 %     mosaico = montage(mosaics, 'Size', [1 n_channels]);
     imwrite(mosaics, strcat(Data_dir, '\Mosaic.png'));
     montage = mosaics;
-    fprintf('Stitching Finished!');
+    fprintf('Stitching Finished!\n');
 
 end
