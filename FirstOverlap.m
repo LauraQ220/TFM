@@ -25,14 +25,14 @@ max_cuts = ceil((0.94-FOVD)/0.94-1); %94% es lo que usaron la gente del paper
     fprintf('The overlap percentaje for magnitud x%.2f in X axis is %.2f %% and in Y axis is %.2f %%\n',FOVD,overlap*100,overlap*100);
     dir= strcat('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Test_Data_x',num2str(FOVD),'_',num2str(c),'x',num2str(c),'_',num2str(overlap,2),'x',num2str(overlap,2));
 
-    mergeChannels(dir)
     
     
     
     
     %1. Cut Image(Data_dir, ground_Truth, magnification, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
      CutImage(dir, ground_Truth, FOVD, c, c,0,1,0);
-    
+     mergeChannels(dir)
+
     %2. Stitch algorithm
      Montage = montageImages(dir);
     Montage8Bit = uint8(255 * mat2gray(Montage));
