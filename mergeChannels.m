@@ -1,7 +1,7 @@
 % function mergeChannels(parentFolder)
 clear all; close all; clc;
     
-parentFolder= strcat('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Test_Data_x4_4x4_0x0');
+parentFolder= strcat('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\TFM.git\Data\Test_Data_x4_4x4_0x0');
 
     Channel_dir = struct2cell(dir(strcat(parentFolder,'\Ch*')));
     Channel_name=Channel_dir(1,:);
