@@ -2,12 +2,12 @@ clear all; close all; clc;
 
 %% Import data
 
-Data_dir = dir('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data');
+Data_dir = dir('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Reference');
 Data_name=Data_dir(3).name;
-ground_Truth = imread(strcat('Data\Reference\',char(Data_name)));
+ground_Truth = imread(strcat('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Reference\',char(Data_name)));
 
 %%Define values
-FOVD = 1.06; %Magnification of the microscope
+FOVD = 4; %Magnification of the microscope
 [gT_height, gT_width, gT_depth] = size(ground_Truth);
 
 error_pixels = 8;
@@ -20,12 +20,14 @@ min_cuts = ceil((error_percentaje-FOVD)/(error_percentaje-1)); %Nos acoplamos a 
 max_cuts = ceil((0.94-FOVD)/0.94-1); %94% es lo que usaron la gente del paper
 
 % for c= min_cuts:max_cuts
-    c=2;
+    c=4;
     overlap = (c-FOVD)/(c-1); %Same for both X and Y
     fprintf('The overlap percentaje for magnitud x%.2f in X axis is %.2f %% and in Y axis is %.2f %%\n',FOVD,overlap*100,overlap*100);
-    dir= strcat('Data\Test_Data_x',num2str(FOVD),'_',num2str(c),'x',num2str(c),'_',num2str(overlap,2),'x',num2str(overlap,2));
+    dir= strcat('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Test_Data_x',num2str(FOVD),'_',num2str(c),'x',num2str(c),'_',num2str(overlap,2),'x',num2str(overlap,2));
 
-
+    mergeChannels(dir)
+    
+    
     
     
     %1. Cut Image(Data_dir, ground_Truth, magnification, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
