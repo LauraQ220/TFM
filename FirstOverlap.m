@@ -31,7 +31,7 @@ max_cuts = ceil((0.94-FOVD)/0.94-1); %94% es lo que usaron la gente del paper
     
     %1. Cut Image(Data_dir, ground_Truth, magnification, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
      CutImage(dir, ground_Truth, FOVD, c, c,0,1,0);
-     mergeChannels(dir)
+%      mergeChannels(dir)
 
     %2. Stitch algorithm
      Montage = montageImages(dir);
@@ -48,7 +48,7 @@ max_cuts = ceil((0.94-FOVD)/0.94-1); %94% es lo que usaron la gente del paper
     psnrVal = psnr(nB_Montage, nB_ground_Truth)%2.PSNR
     ssimVal = ssim(nB_Montage,nB_ground_Truth) %3.SSIM
 %     ergasVal = ergas(nB_Montage,nB_ground_Truth) %4.ERGAS
-    samVal = sam(nB_Montage,nB_ground_Truth)%5.SAM
+%     samVal = sam(nB_Montage,nB_ground_Truth)%5.SAM
     
 % end
 
