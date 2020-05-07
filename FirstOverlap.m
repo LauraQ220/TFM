@@ -4,7 +4,7 @@ clear all; close all; clc;
 
 Data_dir = dir('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\TFM.git\Data\Reference');
 Data_name=Data_dir(3).name;
-ground_Truth = imread(strcat('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\TFM.git\Data\Reference\',char(Data_name)));
+ground_Truth = cell2mat(struct2cell(load(strcat('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\TFM.git\Data\Reference\',char(Data_name)))));
 
 %%Define values
 FOVD = 4; %Magnification of the microscope
