@@ -7,7 +7,7 @@ Data_name=Data_dir(3).name;
 ground_Truth = imread(strcat('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Reference\',char(Data_name)));
 
 %%Define values
-FOVD = 4; %Magnification of the microscope
+FOVD = 2; %Magnification of the microscope
 [gT_height, gT_width, gT_depth] = size(ground_Truth);
 
 error_pixels = 8;
@@ -31,7 +31,7 @@ max_cuts = ceil((0.94-FOVD)/0.94-1); %94% es lo que usaron la gente del paper
     
     %1. Cut Image(Data_dir, ground_Truth, magnification, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
      CutImage(dir, ground_Truth, FOVD, c, c,0,1,0);
-%      mergeChannels(dir)
+     mergeChannels(dir)
 
     %2. Stitch algorithm
      Montage = montageImages(dir);

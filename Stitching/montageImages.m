@@ -1,23 +1,24 @@
 function montage = montageImages(Data_dir)
 
-    %% Test script for multi-channel mosaicking project
     % Mosaics multi-channel data using methods described in *INSERT PAPER*
 
-    %% Import data - see README for instructions on Data Directory structure
-    
-    
+
+
 %     Data_dir = 'C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\1stOverlap\Data\Test_Data_x2_20x20_0.95x0.95'; % Data Directory
-%     Data_dir = 'Test_Data'; % Data Directory
-    channel_dirs = dir(Data_dir);
-    % Data Directory has a sub-folder for each data channel
+%     Data_dir = 'Test_Data';
+    channel_dirs = dir(strcat(Data_dir,'\Channels'));
+%         Data Directory has a sub-folder for each data channel
     n_channels = length(channel_dirs) - 2;
+    
+    
+    
 
     for i = 1:n_channels
-        current_ch_dir = dir([Data_dir '/' channel_dirs(i+2).name]);
+        current_ch_dir = dir([Data_dir '\Channels\' channel_dirs(i+2).name]);
         n_frames = length(current_ch_dir) - 2;
 %         n_frames = 2;
         for j = 1:n_frames
-            original_frames(:,:,i,j) = imread([Data_dir '/' channel_dirs(i+2).name '/frame' num2str(j-1) '.tif']);
+            original_frames(:,:,i,j) = imread([Data_dir '\Channels\' channel_dirs(i+2).name '\frame' num2str(j-1) '.tif']);
         end
     end
 
