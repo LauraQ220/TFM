@@ -14,4 +14,5 @@ function mergeChannels(parentFolder)
         end
         imwrite(mosaics, strcat(parentFolder,'\ChM\',Frame_name(f)+2));
     end
+    fprintf('Finished merging!');
 end
