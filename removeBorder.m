@@ -2,8 +2,8 @@ function [nB_ground_Truth, nB_Montage] = removeBorder(dir, ground_Truth, Montage
     
     %Calculate parameters 
     [gT_height, gT_width, gT_depth] = size(ground_Truth);
-    gT_cut_width = round(gT_width*xoverlap);
-    gT_cut_height = round(gT_height*yoverlap);
+    gT_cut_width = ceil(gT_width*xoverlap);
+    gT_cut_height = ceil(gT_height*yoverlap);
     [m_height, m_width, m_depth] = size(Montage);
     
     %Ground Truth without border (overlap) has to be smaller than
@@ -11,21 +11,21 @@ function [nB_ground_Truth, nB_Montage] = removeBorder(dir, ground_Truth, Montage
     if (m_width>=gT_cut_width) &&(m_height>=gT_cut_height) 
 
         %Ground Truth
-        gT_horizontal_Coordenates = round((gT_width - gT_cut_width)/2);
-        gT_vertical_Coordenates = round((gT_height - gT_cut_height)/2);
+        gT_horizontal_Coordenates = ceil((gT_width - gT_cut_width)/2);
+        gT_vertical_Coordenates = ceil((gT_height - gT_cut_height)/2);
         nB_ground_Truth = imcrop(ground_Truth,[gT_horizontal_Coordenates gT_vertical_Coordenates gT_cut_width gT_cut_height]);
 
 
         %Montage
-        m_horizontal_Coordenates = round((m_width - gT_cut_width)/2);
-        m_vertical_Coordenates = round((m_height - gT_cut_height)/2);
+        m_horizontal_Coordenates = ceil((m_width - gT_cut_width)/2);
+        m_vertical_Coordenates = ceil((m_height - gT_cut_height)/2);
         nB_Montage = imcrop(Montage,[m_horizontal_Coordenates m_vertical_Coordenates gT_cut_width gT_cut_height]);
 
 
     else
         nB_ground_Truth = 0;
         nB_Montage = 0;
-        fprintf('Montage smaller than Ground Thruth');
+        fprintf('Montage smaller than Ground Thruth\n');
     end
 
 
@@ -42,5 +42,6 @@ function [nB_ground_Truth, nB_Montage] = removeBorder(dir, ground_Truth, Montage
         %Plot title
         sgtitle(strcat('Reference Image without Border: ',num2str(xoverlap),'x',num2str(yoverlap)));
     end
+    fprintf('Borders Removed!\n');
 
 end
