@@ -6,7 +6,7 @@ function [nB_ground_Truth, nB_Montage] = removeBorder(dir, ground_Truth, Montage
     gT_cut_height = round(gT_height*yoverlap);
     [m_height, m_width, m_depth] = size(Montage);
     
-    %Ground Truth without border (1-overlap) has to be smaller than
+    %Ground Truth without border (overlap) has to be smaller than
     %montage image
     if (m_width>=gT_cut_width) &&(m_height>=gT_cut_height) 
 

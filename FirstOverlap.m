@@ -1,5 +1,8 @@
 clear all; close all; clc;
 
+
+
+
 %% Import data
 
 Data_dir = dir('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Reference');
@@ -21,7 +24,9 @@ max_cuts = ceil((0.94-FOVD)/0.94-1); %94% es lo que usaron la gente del paper
 
 % for c= min_cuts:max_cuts
     c=2;
-    overlap = (c-FOVD)/(c-1); %Same for both X and Y
+    min_cuts = 2;
+    i = c-min_cuts+1;
+    overlap(i) = (c-FOVD)/(c-1); %Same for both X and Y
     fprintf('The overlap percentaje for magnitud x%.2f in X axis is %.2f %% and in Y axis is %.2f %%\n',FOVD,overlap*100,overlap*100);
     dir= strcat('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Test_Data_x',num2str(FOVD),'_',num2str(c),'x',num2str(c),'_',num2str(overlap,2),'x',num2str(overlap,2));
 
@@ -31,29 +36,29 @@ max_cuts = ceil((0.94-FOVD)/0.94-1); %94% es lo que usaron la gente del paper
     
     %1. Cut Image(Data_dir, ground_Truth, magnification, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
      CutImage(dir, ground_Truth, FOVD, c, c,0,1,0);
-     mergeChannels(strcat('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Test_Data'))
+%      mergeChannels(dir);
 
     %2. Stitch algorithm
      Montage = montageImages(dir);
-    Montage8Bit = uint8(255 * mat2gray(Montage));
+    Montage8Bit = uint8(255 * mat2gray(Montage));%From double to uint8
     
      %3. Metric function
     %3.1. Cut Borders
-    %noBorderImage = removeBorder(dir, ground_Truth, xoverlap, yoverlap, save,show)
+    %noBorderImage = removeBorder(dir, ground_Truth, mosaic, xoverlap, yoverlap, save,show)
     
     [nB_ground_Truth, nB_Montage] = removeBorder(dir, ground_Truth, Montage8Bit, overlap, overlap, 1,0);
 
     %3.2.Apply Metrics
-    rmseVal = sqrt(immse (nB_Montage, nB_ground_Truth)); %1.RMSE
-    fprintf('RMSE = %.2f (The lower de better)\n',rmseVal);
-    psnrVal = psnr(nB_Montage, nB_ground_Truth);%2.PSNR
-    fprintf('PSNR = %.2f (The lower de better)\n',psnrVal);
-    ssimVal = ssim(nB_Montage,nB_ground_Truth); %3.SSIM
-    fprintf('SSIM = %.2f (0: no correlation, 1:equal images)\n',ssimVal);
-%     ergasVal = ergas(nB_Montage,nB_ground_Truth); %4.ERGAS
-%     fprintf('ERGAS = %.2f (The lower de better)\n',ergasVal);
-%     samVal = sam(nB_Montage,nB_ground_Truth);%5.SAM
-%     fprintf('SAM = %.2f (The lower de better)\n',samVal);
+    rmseVal(i) = sqrt(immse (nB_Montage, nB_ground_Truth)); %1.RMSE
+    fprintf('RMSE = %.2f (The lower de better)\n',rmseVal(i));
+    psnrVal(i) = psnr(nB_Montage, nB_ground_Truth);%2.PSNR
+    fprintf('PSNR = %.2f (The lower de better)\n',psnrVal(i));
+    ssimVal(i) = ssim(nB_Montage,nB_ground_Truth); %3.SSIM
+    fprintf('SSIM = %.2f (0: no correlation, 1:equal images)\n',ssimVal(i));
+%     ergasVal(i) = ergas(nB_Montage,nB_ground_Truth); %4.ERGAS
+%     fprintf('ERGAS = %.2f (The lower de better)\n',ergasVal(i));
+%     samVal(i) = sam(nB_Montage,nB_ground_Truth);%5.SAM
+%     fprintf('SAM = %.2f (The lower de better)\n',samVal(i));
     
 % end
 
