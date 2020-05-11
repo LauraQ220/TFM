@@ -18,7 +18,7 @@ min_cuts = ceil((error_percentaje-FOVD)/(error_percentaje-1)); %El error marca e
 max_cuts = ceil((0.94-FOVD)/(0.94-1)); %94% es lo que usaron la gente del paper y tratamos de disminuir
 
 % for c= min_cuts:max_cuts
-    c=
+    c=4;
     
     fprintf('\n\n\nCut number %d\n',c);
     i = c-min_cuts+1;
@@ -33,8 +33,9 @@ max_cuts = ceil((0.94-FOVD)/(0.94-1)); %94% es lo que usaron la gente del paper 
     %2. Stitch algorithm
     dir = strcat('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Test_Data_x2_18x18_0.94x0.94');
     
+    c=4;
     for m=1:c:(c*c)
-        Montage(m) = montageImages(dir,m,m+c); %Montar cada fila
+        Montage(m) = montageImages(dir,m,m+c-1); %Montar cada fila
     end
     final_Montage = montageImages(dir,1,c); %Juntar todas las filas
     
