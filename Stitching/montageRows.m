@@ -1,4 +1,4 @@
-function montage = montageImages(Data_dir,first_frame,last_frame)
+function montage = montageRows(Data_dir,first_frame,last_frame)
 
     % Mosaics multi-channel data using methods described in *INSERT PAPER*
 
@@ -15,9 +15,10 @@ function montage = montageImages(Data_dir,first_frame,last_frame)
    %Loop to read all frames
     for i = 1:n_channels
         current_ch_dir = dir([Data_dir '\Channels\' channel_dirs(i+2).name]);
-        n_frames = length(current_ch_dir) - 2;
+%         n_frames = length(current_ch_dir) - 2;
+        n_frames = last_frame - first_frame+1;
         for j = 1:n_frames
-            original_frames(:,:,i,j) = imread([Data_dir '\Channels\' channel_dirs(i+2).name '\frame' num2str(j-1) '.tif']);
+            original_frames(:,:,i,j) = imread([Data_dir '\Channels\' channel_dirs(i+2).name '\frame' num2str(j-2+first_frame) '.tif']);
         end
     end
 
@@ -86,16 +87,20 @@ function montage = montageImages(Data_dir,first_frame,last_frame)
         xLimits = [xMin xMax];
         yLimits = [yMin yMax];
         panoramaView = imref2d([height width], xLimits, yLimits);
+        frame_number = (last_frame/(last_frame-first_frame+1))-1;
+
 
         for j = 1:n_channels
             Mtind(:,:,j) = imwarp(Mind(:,:,j), affine2d, 'nearest', 'OutputView', panoramaView);
             I2t(:,:,j) = imwarp(I2(:,:,j), tform, 'OutputView', panoramaView);
             mosaics(:,:,j) = double(stitchImages(Mtind(:,:,j), I2t(:,:,j)))/255;
+            imwrite(mosaics(:,:,j), strcat(Data_dir,'\Rows\Ch',num2str(j),'\frame', num2str(frame_number), '.tif'));
         end
     end
 
 %     mosaico = montage(mosaics, 'Size', [1 n_channels]);
-    imwrite(mosaics, strcat(Data_dir, '\Mosaic.png'));
+%     frame_number = last_frame/(last_frame-first_frame+1);
+%     imwrite(mosaics, strcat(Data_dir, '\Mosaic.png'));
     montage = mosaics;
     fprintf('Stitching Finished!\n');
 

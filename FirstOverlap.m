@@ -19,7 +19,8 @@ max_cuts = ceil((0.94-FOVD)/(0.94-1)); %94% es lo que usaron la gente del paper 
 
 % for c= min_cuts:max_cuts
     c=4;
-    
+    i=1;
+
     fprintf('\n\n\nCut number %d\n',c);
     i = c-min_cuts+1;
     overlap(i) = (c-FOVD)/(c-1); %Same for both X and Y
@@ -31,14 +32,12 @@ max_cuts = ceil((0.94-FOVD)/(0.94-1)); %94% es lo que usaron la gente del paper 
 %      mergeChannels(dir);
 
     %2. Stitch algorithm
-    dir = strcat('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Test_Data_x2_18x18_0.94x0.94');
-    
-    c=4;
-    for m=1:c:(c*c)
-        Montage(m) = montageImages(dir,m,m+c-1); %Montar cada fila
+    option = 1;%1: first stich rows and then cols; 2: everything together
+    if option ==1
+        final_Montage = montageRowCol(dir,c,gT_depth); %Juntar todas las filas
+    elseif option ==2
+        final_Montage = montageImages(dir,1,c); %Juntar todas las filas
     end
-    final_Montage = montageImages(dir,1,c); %Juntar todas las filas
-    
     Montage8Bit = uint8(255 * mat2gray(final_Montage));%From double to uint8
     
      %3. Metric function

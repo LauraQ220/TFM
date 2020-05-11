@@ -1,4 +1,4 @@
-function montage = montageImages(Data_dir,first_frame,last_frame)
+function montage = montageCols(Data_dir,first_frame,last_frame)
 
     % Mosaics multi-channel data using methods described in *INSERT PAPER*
 
@@ -7,17 +7,18 @@ function montage = montageImages(Data_dir,first_frame,last_frame)
 %     Data_dir = 'C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\1stOverlap\Data\Test_Data_x2_20x20_0.95x0.95'; % Data Directory
 %     Data_dir = 'Test_Data';
 
-    channel_dirs = dir(strcat(Data_dir,'\Channels'));
+    channel_dirs = dir(strcat(Data_dir,'\Rows'));
     %Data Directory has a sub-folder for each data channel
     n_channels = length(channel_dirs) - 2;
     
     
    %Loop to read all frames
     for i = 1:n_channels
-        current_ch_dir = dir([Data_dir '\Channels\' channel_dirs(i+2).name]);
-        n_frames = length(current_ch_dir) - 2;
+        current_ch_dir = dir([Data_dir '\Rows\' channel_dirs(i+2).name]);
+%         n_frames = length(current_ch_dir) - 2;
+        n_frames = last_frame - first_frame+1;
         for j = 1:n_frames
-            original_frames(:,:,i,j) = imread([Data_dir '\Channels\' channel_dirs(i+2).name '\frame' num2str(j-1) '.tif']);
+            original_frames(:,:,i,j) = imread([Data_dir '\Rows\' channel_dirs(i+2).name '\frame' num2str(j-+first_frame) '.tif']);
         end
     end
 
