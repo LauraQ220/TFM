@@ -94,7 +94,7 @@ function montage = montageImages(Data_dir)
         end
     end
 
-%     mosaico = montage(mosaics, 'Size', [1 n_channels]);
+%     montage(mosaics, 'Size', [1 n_channels]);
     imwrite(mosaics, strcat(Data_dir, '\Mosaic.png'));
     montage = mosaics;
     fprintf('Stitching Finished!\n');

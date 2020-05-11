@@ -18,7 +18,7 @@ min_cuts = ceil((error_percentaje-FOVD)/(error_percentaje-1)); %El error marca e
 max_cuts = ceil((0.94-FOVD)/(0.94-1)); %94% es lo que usaron la gente del paper y tratamos de disminuir
 
 % for c= min_cuts:max_cuts
-    c=4;
+    c=18;
     i=1;
 
     fprintf('\n\n\nCut number %d\n',c);
@@ -60,20 +60,20 @@ max_cuts = ceil((0.94-FOVD)/(0.94-1)); %94% es lo que usaron la gente del paper 
     
 % end
 
-subplot(1,3,1);
-plot(overlap, rmseVal);
-title('Overlap vs RMSE');
-xlabel('Overlap');
-ylabel('RMSE');
-subplot(1,3,2);
-plot(overlap, psnrVal);
-title('Overlap vs PSNR');
-xlabel('Overlap');
-ylabel('PSNR');
-subplot(1,3,3);
-plot(overlap, ssimVal);
-title('Overlap vs SSIM');
-xlabel('Overlap');
-ylabel('SSIM');
+% subplot(1,3,1);
+% plot(overlap, rmseVal);
+% title('Overlap vs RMSE');
+% xlabel('Overlap');
+% ylabel('RMSE');
+% subplot(1,3,2);
+% plot(overlap, psnrVal);
+% title('Overlap vs PSNR');
+% xlabel('Overlap');
+% ylabel('PSNR');
+% subplot(1,3,3);
+% plot(overlap, ssimVal);
+% title('Overlap vs SSIM');
+% xlabel('Overlap');
+% ylabel('SSIM');
 
 fprintf('\nEnd of Test Bench');

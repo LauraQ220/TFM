@@ -7,7 +7,7 @@
     %% Import data - see README for instructions on Data Directory structure
     
     
-    Data_dir = 'C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\1stOverlap\Data\Test_Data_x2_20x20_0.95x0.95'; % Data Directory
+    Data_dir = 'C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Test_Data_x2_18x18_0.94x0.94\Channels'; % Data Directory
 %     Data_dir = 'Test_Data'; % Data Directory
     channel_dirs = dir(Data_dir);
     % Data Directory has a sub-folder for each data channel
@@ -21,12 +21,14 @@
         end
     end
 
+original_frames = imread([Data_dir '/Ch1/frame1.tif']);
+
     original_frames = double(original_frames)/255; %Normaliza la imagen
 
     yres = size(original_frames,  1);%tamaño de x axis
     xres = size(original_frames,  2);%tamaño de y axis
 
-    % If a GPU device is available, use it for increased calculation speed
+%% If a GPU device is available, use it for increased calculation speed
 
     try
        canUseGPU = parallel.gpu.GPUDevice.isAvailable;
