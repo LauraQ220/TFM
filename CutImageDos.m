@@ -8,39 +8,58 @@ function CutImageDos(dir, ground_Truth, FOVD, horizontal_Cuts, vertical_Cuts,err
     if (horizontal_Cuts>=FOVD)&&(vertical_Cuts>=FOVD)&&(FOVD<=100)
          
         [gT_height, gT_width, gT_depth] = size(ground_Truth);
+        image_Array(gT_height,gT_width,gT_depth,horizontal_Cuts*vertical_Cuts)=[];
         cut_Height = round(gT_height/FOVD)-1;
         cut_Width = round(gT_width/FOVD)-1;
         
         indice = 1;
-        %Loop para recotar por el eje Y
-        for y=1:vertical_Cuts
-            if y ==1
-                vertical_Coordenates = 1;
-            elseif y==vertical_Cuts
-                vertical_Coordenates = gT_height-cut_Height;
+        %Loop para recotar por el eje X
+        for x=1:horizontal_Cuts
+            if x ==1
+                horizontal_Coordenates = 1;
+            elseif x==horizontal_Cuts
+                horizontal_Coordenates = gT_width-cut_Width;
             else
-                desfaceY = round((cut_Height*(1-vertical_Overlap)));
-                vertical_Coordenates = vertical_Coordenates + desfaceY + round(2*error_pixels.*rand(1,1) - error_pixels);
+                desfaceX = round((cut_Width*(1-horizontal_Overlap)));
+                horizontal_Coordenates = horizontal_Coordenates + desfaceX + round(2*error_pixels.*rand(1,1) - error_pixels);
             end
-
-            %Loop para recortar por el eje X
-            for x=1:horizontal_Cuts
-                if x ==1
-                    horizontal_Coordenates = 1;                 
-                elseif x==horizontal_Cuts
-                    horizontal_Coordenates = gT_width-cut_Width;        
-                else
-                    desfaceX = round((cut_Width*(1-horizontal_Overlap)));
-                    horizontal_Coordenates = horizontal_Coordenates + desfaceX + round(2*error_pixels.*rand(1,1) - error_pixels);                
+            
+            if rem(x,2)~=0
+                %Loop para recortar por el eje Y (hacia abajo)
+                for y=1:1:vertical_Cuts
+                    if y ==1
+                        vertical_Coordenates = 1;                 
+                    elseif y==vertical_Cuts
+                        vertical_Coordenates = gT_height-cut_Height;        
+                    else
+                        desfaceY = round((cut_Height*(1-vertical_Overlap)));
+                        vertical_Coordenates = vertical_Coordenates + desfaceY + round(2*error_pixels.*rand(1,1) - error_pixels);                
+                    end
+                    %Recortar imagen
+                    image = imcrop(ground_Truth,[horizontal_Coordenates vertical_Coordenates cut_Width cut_Height]);
+                    image_Array(:,:,:,indice) = image;
+                    indice = indice +1;
                 end
-                               
-                %Recortar imagen
-                image = imcrop(ground_Truth,[horizontal_Coordenates vertical_Coordenates cut_Width cut_Height]);
-%                 [height width depth] = size(image);
-                image_Array(:,:,:,indice) = image;
-                indice = indice +1;
+                
+            elseif rem(x,2)==0
+                %Loop para recortar por el eje Y (hacia arriba)
+                for y=vertical_Cuts:-1:1
+                    if y ==1
+                        vertical_Coordenates = 1;                 
+                    elseif y==vertical_Cuts
+                        vertical_Coordenates = gT_height-cut_Height;        
+                    else
+                        desfaceY = round((cut_Height*(1-vertical_Overlap)));
+                        vertical_Coordenates = vertical_Coordenates + desfaceY + round(2*error_pixels.*rand(1,1) - error_pixels);                
+                    end
+                    %Recortar imagen
+                    image = imcrop(ground_Truth,[horizontal_Coordenates vertical_Coordenates cut_Width cut_Height]);
+                    image_Array(:,:,:,indice) = image;
+                    indice = indice +1;
+                end
             end
         end
+    end
         
 
         if save ==1  %Save image 
