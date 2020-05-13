@@ -44,7 +44,7 @@ function CutImage(dir, ground_Truth, FOVD, horizontal_Cuts, vertical_Cuts,error_
         
 
         if save ==1  %Save image 
-            SaveChannels(dir,image_Array);
+            SaveChannelsDos(dir,image_Array,vertical_Cuts,horizontal_Cuts);
         end
         
         if show ==1 %Show image

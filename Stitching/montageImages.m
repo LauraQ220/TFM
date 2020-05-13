@@ -46,6 +46,9 @@ function montage = montageImages(Data_dir)
 
     %% Calculate mosaics
     for f = 1:n_frames-1
+
+        
+        fprintf('Stitching frame %d with %d\n',f,f+1);
         dxp = dx;
         dyp = dy;
 

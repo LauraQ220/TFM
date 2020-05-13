@@ -18,7 +18,7 @@ min_cuts = ceil((error_percentaje-FOVD)/(error_percentaje-1)); %El error marca e
 max_cuts = ceil((0.94-FOVD)/(0.94-1)); %94% es lo que usaron la gente del paper y tratamos de disminuir
 
 % for c= min_cuts:max_cuts
-    c=18;
+    c=4;
     i=1;
 
     fprintf('\n\n\nCut number %d\n',c);
@@ -28,11 +28,11 @@ max_cuts = ceil((0.94-FOVD)/(0.94-1)); %94% es lo que usaron la gente del paper 
     dir= strcat('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Test_Data_x',num2str(FOVD),'_',num2str(c),'x',num2str(c),'_',num2str(overlap(i),2),'x',num2str(overlap(i),2));
 
     %1. Cut Image(Data_dir, ground_Truth, FOVD, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
-     CutImage(dir, ground_Truth, FOVD, c, c,0,1,0);
+     CutImageDos(dir, ground_Truth, FOVD, c, c,0,1,0);
 %      mergeChannels(dir);
 
     %2. Stitch algorithm
-    option = 1;%1: first stich rows and then cols; 2: everything together
+    option = 2;%1: first stich rows and then cols; 2: everything together
     if option ==1
         final_Montage = montageRowCol(dir,c,gT_depth); 
     elseif option ==2

@@ -1,4 +1,4 @@
-function SaveChannelsDos(parentFolder, Img)
+function SaveChannelsDos(parentFolder, Img, cols, rows)
     [height width depth frame] = size(Img);    
     %Create Parent Folder
     if ~exist(parentFolder, 'dir')
@@ -15,11 +15,20 @@ function SaveChannelsDos(parentFolder, Img)
             mkdir(parentFolder, subFolder);
         end       
         %Loop through each cutted image (frame)
-        for f=1:frame  
-            %Create fileName for each frame
-            fileName = strcat('\frame',num2str(f-1),'.tif');           
-            %Save frame in parentFolder/subFolder/fileName
-            imwrite(Img(:,:,b,f), strcat(parentFolder, subFolder,fileName));
+        f=1;
+        for c=0:cols-1
+            for r = 0:rows-1
+                if rem(c,2)==0
+                    indice = c*rows+r; %Hacia abajo
+                else
+                    indice = (c+1)*rows-(r+1); %Hacia arriba
+                end
+                %Create fileName for each frame
+                fileName = strcat('\frame',num2str(indice),'.tif');           
+                %Save frame in parentFolder/subFolder/fileName
+                imwrite(Img(:,:,b,f), strcat(parentFolder, subFolder,fileName));
+                f=f+1;
+            end         
         end
     end
 
