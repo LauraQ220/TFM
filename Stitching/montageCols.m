@@ -28,17 +28,17 @@ function montage = montageCols(Data_dir,first_frame,last_frame)
     xres = size(original_frames,  2);%tamaño de y axis
 
 
-    %% If a GPU device is available, use it for increased calculation speed
-% 
-%     try
-%        canUseGPU = parallel.gpu.GPUDevice.isAvailable;
-%     catch ME
-%        canUseGPU = false;
-%     end
-% 
-%     if canUseGPU
-%         original_frames_GPU = gpuArray(original_frames);
-%     end
+    % If a GPU device is available, use it for increased calculation speed
+
+    try
+       canUseGPU = parallel.gpu.GPUDevice.isAvailable;
+    catch ME
+       canUseGPU = false;
+    end
+
+    if canUseGPU
+        original_frames_GPU = gpuArray(original_frames);
+    end
 
     %% Allocate variables for mosaicking
     mosaics = original_frames(:,:,:,1);
@@ -53,13 +53,13 @@ function montage = montageCols(Data_dir,first_frame,last_frame)
         I1 = original_frames(:,:,:,f);
         I2 = original_frames(:,:,:,f+1);
 
-%         if canUseGPU
-%             I1_GPU = original_frames_GPU(:,:,:,f);
-%             I2_GPU = original_frames_GPU(:,:,:,f+1);
-%             [dy, dx, err] = mchannel_nxcorr_reg_GPU(I1_GPU, I2_GPU, trustvector);
-%         else
-%             [dy, dx, err] = mchannel_nxcorr_reg_GPU(I1, I2, trustvector);
-%         end       
+        if canUseGPU
+            I1_GPU = original_frames_GPU(:,:,:,f);
+            I2_GPU = original_frames_GPU(:,:,:,f+1);
+            [dy, dx, err] = mchannel_nxcorr_reg_GPU(I1_GPU, I2_GPU, trustvector);
+        else
+            [dy, dx, err] = mchannel_nxcorr_reg_GPU(I1, I2, trustvector);
+        end       
 
         % Only include next line if you want dynamic weighted averaging based on individual error rates
         % trustvector = 0*trustvector + 1./(err+1);

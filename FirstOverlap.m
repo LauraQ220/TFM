@@ -32,7 +32,7 @@ max_cuts = ceil((0.94-FOVD)/(0.94-1)); %94% es lo que usaron la gente del paper 
 %      mergeChannels(dir);
 
     %2. Stitch algorithm
-    option = 2;%1: first stich rows and then cols; 2: everything together
+    option = 1;%1: first stich rows and then cols; 2: everything together
     if option ==1
         final_Montage = montageRowCol(dir,c,gT_depth); 
     elseif option ==2
@@ -40,7 +40,7 @@ max_cuts = ceil((0.94-FOVD)/(0.94-1)); %94% es lo que usaron la gente del paper 
     end
     Montage8Bit = uint8(255 * mat2gray(final_Montage));%From double to uint8
     
-     %3. Metric function
+    %3. Metric function
     %3.1. Cut Borders
     %noBorderImage = removeBorder(dir, ground_Truth, mosaic, xoverlap, yoverlap, save,show)
     

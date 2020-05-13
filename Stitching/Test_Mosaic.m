@@ -17,11 +17,9 @@
         current_ch_dir = dir([Data_dir '/' channel_dirs(i+2).name]);
         n_frames = length(current_ch_dir) - 2;
         for j = 1:n_frames
-            original_frames(:,:,i,j) = imread([Data_dir '/' channel_dirs(i+2).name '/frame' num2str(j-1) '.tif']);
+            original_frames(:,:,i,j) = imread([Data_dir '\' channel_dirs(i+2).name '\frame' num2str(j-1) '.tif']);
         end
     end
-
-original_frames = imread([Data_dir '/Ch1/frame1.tif']);
 
     original_frames = double(original_frames)/255; %Normaliza la imagen
 
