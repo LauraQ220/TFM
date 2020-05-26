@@ -9,7 +9,8 @@ function CutImageDos(dir, ground_Truth, FOVD, horizontal_Cuts, vertical_Cuts,err
          
         [gT_height, gT_width, gT_depth] = size(ground_Truth);
         cut_Height = round(gT_height/FOVD)-1;
-        cut_Width = round(gT_width/FOVD)-1;
+        cut_Width = cut_Height;
+%         cut_Width = 255;
         
         indice = 1;
         %Loop para recotar por el eje X

@@ -9,7 +9,9 @@ function CutImage(dir, ground_Truth, FOVD, horizontal_Cuts, vertical_Cuts,error_
          
         [gT_height, gT_width, gT_depth] = size(ground_Truth);
         cut_Height = round(gT_height/FOVD)-1;
-        cut_Width = round(gT_width/FOVD)-1;
+        cut_Width = cut_Height;
+%         cut_Width = round(gT_width/FOVD)-1;
+
         
         indice = 1;
         %Loop para recotar por el eje Y
@@ -55,7 +57,8 @@ function CutImage(dir, ground_Truth, FOVD, horizontal_Cuts, vertical_Cuts,error_
                 yticks([])%Remove y axis
             end
             %Plot title
-            sgtitle(strcat('FOV Degradation: ',num2str(FOVD),'. Overlap in X axis: ',num2str(round(horizontal_Overlap*100)),'% and in Y axis: ',num2str(round(vertical_Overlap*100)),'%'));
+            sgtitle(strcat('FOV Degradation: ',num2str(FOVD),'. Overlap: ',num2str(round(horizontal_Overlap*100))));
+%             sgtitle(strcat('FOV Degradation: ',num2str(FOVD),'. Overlap in X axis: ',num2str(round(horizontal_Overlap*100)),'% and in Y axis: ',num2str(round(vertical_Overlap*100)),'%'));
         end
        
     elseif (FOVD>100)

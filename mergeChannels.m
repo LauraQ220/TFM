@@ -4,8 +4,9 @@ function mergeChannels(parentFolder)
     Channel_name=Channel_dir(1,:);
     n_channels = length(Channel_name);
     
-    Frame_dir = struct2cell(dir(char(strcat(parentFolder,'\Channels\',Channel_name(3),'\frame*'))));
-    n_frames = length(Frame_dir);
+    Frame_dir = struct2cell(dir(char(strcat(parentFolder,'\Channels\',Channel_name(1),'\frame*'))));
+    Frame_name=Frame_dir(1,:);
+    n_frames = length(Frame_name);
 
     mkdir(strcat(parentFolder,'\ChannelsMerged'));
 

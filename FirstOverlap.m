@@ -18,18 +18,18 @@ min_cuts = ceil((error_percentaje-FOVD)/(error_percentaje-1)); %El error marca e
 max_cuts = ceil((0.94-FOVD)/(0.94-1)); %94% es lo que usaron la gente del paper y tratamos de disminuir
 
 % for c= min_cuts:max_cuts
-    c=4;
+    c=2;
     i=1;
 
     fprintf('\n\n\nCut number %d\n',c);
-    i = c-min_cuts+1;
+%     i = c-min_cuts+1;
     overlap(i) = (c-FOVD)/(c-1); %Same for both X and Y
     fprintf('The overlap percentaje for magnitud %.0fx in X axis is %.2f %% and in Y axis is %.2f %%\n',FOVD,overlap(i)*100,overlap(i)*100);
     dir= strcat('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Test_Data_x',num2str(FOVD),'_',num2str(c),'x',num2str(c),'_',num2str(overlap(i),2),'x',num2str(overlap(i),2));
 
     %1. Cut Image(Data_dir, ground_Truth, FOVD, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
-     CutImageDos(dir, ground_Truth, FOVD, c, c,0,1,0);
-%      mergeChannels(dir);
+     CutImageDos(dir, ground_Truth, FOVD, c, c,8,1,0);
+     mergeChannels(dir);
 
     %2. Stitch algorithm
     option = 2;%1: first stich rows and then cols; 2: everything together
