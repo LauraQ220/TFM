@@ -1,18 +1,8 @@
-% function montage = manualMontageImages(Data_dir, cols, rows)
-clear all; close all; clc;
-cols = 2; 
-rows = 2;
-    
-    Data_dir = 'C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Test_Data_x2_2x2_0x0'; % Data Directory
-
+function mon = manualMontageImages(Data_dir, cols, rows)
+   
     Frame_dir = dir(strcat(Data_dir,'\ChannelsMerged'));
     n_frames = length(Frame_dir)-2;
         
-    
-%    %Loop to read all frames
-%     for j = 1:n_frames
-%         original_frames(:,:,:,j) = imread([Data_dir '\ChannelsMerged\frame' num2str(j-1) '.tif']);
-%     end
     f = 1;
     for r=0:rows-1
             for c = 0:cols-1
@@ -25,8 +15,9 @@ rows = 2;
                 original_frames(:,:,:,f) = imread([Data_dir '\ChannelsMerged\frame' num2str(indice) '.tif']);
                 f=f+1;
             end         
-        end
-    montage(original_frames);
+    end
+    
     %Paste frames one next to each other
+    mon = montage(original_frames);
 
-% end
+end

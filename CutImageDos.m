@@ -1,8 +1,10 @@
-function CutImageDos(dir, ground_Truth, FOVD, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
+function CutImageDos(dir, ground_Truth, FOVD, overlap, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
     
     %Calculate overlaps
-    horizontal_Overlap = (horizontal_Cuts-FOVD)/(horizontal_Cuts-1); %Number from 0 to 1 
-    vertical_Overlap = (vertical_Cuts-FOVD)/(vertical_Cuts-1); %Number from 0 to 1
+    horizontal_Overlap = overlap; %Number from 0 to 1 
+    vertical_Overlap = overlap; %Number from 0 to 1
+%     horizontal_Overlap = (horizontal_Cuts-FOVD)/(horizontal_Cuts-1); %Number from 0 to 1 
+%     vertical_Overlap = (vertical_Cuts-FOVD)/(vertical_Cuts-1); %Number from 0 to 1
     %fprintf('The overlap percentaje in X axis is %.f %% and in Y axis is %.0f %%\n',horizontal_Overlap*100,vertical_Overlap*100);
     
     if (horizontal_Cuts>=FOVD)&&(vertical_Cuts>=FOVD)&&(FOVD<=100)
