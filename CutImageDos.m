@@ -1,52 +1,51 @@
-function CutImageDos(dir, ground_Truth, FOVD, overlap, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
+function CutImageDos(dir, ground_Truth, FOVD, guardar, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
     
     %Calculate overlaps
-    horizontal_Overlap = overlap; %Number from 0 to 1 
-    vertical_Overlap = overlap; %Number from 0 to 1
-%     horizontal_Overlap = (horizontal_Cuts-FOVD)/(horizontal_Cuts-1); %Number from 0 to 1 
-%     vertical_Overlap = (vertical_Cuts-FOVD)/(vertical_Cuts-1); %Number from 0 to 1
+    horizontal_Overlap = (horizontal_Cuts-FOVD)/(horizontal_Cuts-1); %Number from 0 to 1 
+    vertical_Overlap = (vertical_Cuts-FOVD)/(vertical_Cuts-1); %Number from 0 to 1
     %fprintf('The overlap percentaje in X axis is %.f %% and in Y axis is %.0f %%\n',horizontal_Overlap*100,vertical_Overlap*100);
     
     if (horizontal_Cuts>=FOVD)&&(vertical_Cuts>=FOVD)&&(FOVD<=100)
          
         [gT_height, gT_width, gT_depth] = size(ground_Truth);
         cut_Height = round(gT_height/FOVD)-1;
-        cut_Width = cut_Height;
-%         cut_Width = 255;
-        
-        indice = 1;
-        %Loop para recotar por el eje X
-        for x=1:horizontal_Cuts
-            if x ==1
-                horizontal_Coordenates = 1;
-            elseif x==horizontal_Cuts
-                horizontal_Coordenates = gT_width-cut_Width;
-            else
-                desfaceX = round((cut_Width*(1-horizontal_Overlap)));
-                horizontal_Coordenates = horizontal_Coordenates + desfaceX + round(2*error_pixels.*rand(1,1) - error_pixels);
-            end
-            %Loop para recortar por el eje Y (hacia abajo)
-            for y=1:1:vertical_Cuts
-                if y ==1
-                    vertical_Coordenates = 1;                 
-                elseif y==vertical_Cuts
-                    vertical_Coordenates = gT_height-cut_Height;        
+        cut_Width = round(gT_width/FOVD)-1;
+        for c = 1:gT_depth
+            indice = 1;
+            %Loop para recotar por el eje X
+            for x=1:horizontal_Cuts
+                if x ==1
+                    horizontal_Coordenates = 1;
+                elseif x==horizontal_Cuts
+                    horizontal_Coordenates = gT_width-cut_Width;
                 else
-                    desfaceY = round((cut_Height*(1-vertical_Overlap)));
-                    vertical_Coordenates = vertical_Coordenates + desfaceY + round(2*error_pixels.*rand(1,1) - error_pixels);                
+                    desfaceX = round((cut_Width*(1-horizontal_Overlap)));
+                    horizontal_Coordenates = horizontal_Coordenates + desfaceX + round(2*error_pixels.*rand(1,1) - error_pixels);
                 end
-                %Recortar imagen
-                image = imcrop(ground_Truth,[horizontal_Coordenates vertical_Coordenates cut_Width cut_Height]);
-                image_Array(:,:,:,indice) = image;
-                indice = indice +1;
+                %Loop para recortar por el eje Y (hacia abajo)
+                for y=1:1:vertical_Cuts
+                    if y ==1
+                        vertical_Coordenates = 1;                 
+                    elseif y==vertical_Cuts
+                        vertical_Coordenates = gT_height-cut_Height;        
+                    else
+                        desfaceY = round((cut_Height*(1-vertical_Overlap)));
+                        vertical_Coordenates = vertical_Coordenates + desfaceY + round(2*error_pixels.*rand(1,1) - error_pixels);                
+                    end
+                    %Recortar imagen
+                    image = imcrop(ground_Truth(:,:,c),[horizontal_Coordenates vertical_Coordenates cut_Width cut_Height]);
+                    if (x<=guardar)&&(y<=guardar)
+                        image_Array(:,:,c,indice) = image;
+                        indice = indice +1;
+                    end
+                end
             end
         end
         
 
-        if save ==1  %Save image 
-            SaveChannelsDos(dir,image_Array,vertical_Cuts,horizontal_Cuts);
-%             SaveChannels(dir,image_Array);
-
+        if save ==1  %Save image   
+            SaveChannelsDos(dir,image_Array,guardar,guardar);
+%           SaveChannels(dir,image_Array);
         end
         
         if show ==1 %Show image

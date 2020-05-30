@@ -1,4 +1,4 @@
-function montage = montageImages(Data_dir)
+function montage = montageImages(Data_dir,save)
 
     % Mosaics multi-channel data using methods described in *INSERT PAPER*
 
@@ -98,7 +98,9 @@ function montage = montageImages(Data_dir)
     end
 
 %     montage(mosaics, 'Size', [1 n_channels]);
-    imwrite(mosaics, strcat(Data_dir, '\Mosaic.png'));
+    if save==1
+        imwrite(mosaics, strcat(Data_dir, '\Mosaic.png'));
+    end
     montage = mosaics;
     fprintf('Stitching Finished!\n');
 
