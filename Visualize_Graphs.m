@@ -1,40 +1,15 @@
 clear all; close all; clc;
 %% Import data
 
-dir_name = 'C:\Users\ACER\Documents\ULPGC\TFM\02_CODIGOS\Data';
-Data_dir = dir(dir_name);
-% ground_Truth = imread(strcat('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Reference\',char(Data_dir(3).name)));
-reference = 'RGB';
-ground_Truth1 = (load(strcat(dir_name,'\Reference\',reference, '.mat')));
-ground_Truth = ground_Truth1.image;
-[gT_height, gT_width, gT_depth] = size(ground_Truth);
-
-%% Select bands
-% bands = 10;
-% idx=1;
-% for j=1:round(275/bands):275
-%     w(idx) = j;
-%     I(:,:,idx) = imcrop(image(:,:,w(idx)),[0 0 800 800]);
-%     idx =idx+1;
-% end
-
-%% Define initial values
-FOVD = 2; %Field of View Degradation
-error_pixels = 8; %Error in pixels for magnification 20x
-error_percentajeX = 0.008; %Error percentaje in X axis for magnification 20x
-error_percentajeY = 0.01; %Error percentaje in Y axis for magnification 20x
-error_percentaje = error_percentajeY; %Most restrictive one
-
-%ceil(a) rounds each element a to the nearest integer >= than element a.
-min_cuts = ceil((error_percentaje-FOVD)/(error_percentaje-1)); %El error marca el minimo solape
-max_cuts = ceil((0.94-FOVD)/(0.94-1)); %94% es lo que usaron la gente del paper y tratamos de disminuir
+dir_name = 'C:\Users\ACER\Documents\ULPGC\TFM\02_CODIGOS\Data\Test';
+data_dir = dir(dir_name);
 
     
 
 %% TEST BENCH
 %Select 0 if want it to variate. Select a number if wanted constant
-cte_frame = 0; 
-cte_overlap = 0.94;
+cte_frame = 2; 
+cte_overlap = 0;
 if (cte_frame ~= 0) && (cte_overlap == 0) %diferentes overlaps (mismo frame)
     test_name = strcat('Test_Data_',reference,'_x',num2str(FOVD),'_',num2str(cte_frame),'x',num2str(cte_frame));
     test_dir = strcat(dir_name,'\Test\',test_name,'.mat');
@@ -42,10 +17,12 @@ elseif (cte_frame == 0) && (cte_overlap ~= 0) %diferentes frames (mismo overlap)
     test_name = strcat('Test_Data_',reference,'_x',num2str(FOVD),'_',num2str(cte_overlap),'x',num2str(cte_overlap));
     test_dir = strcat(dir_name,'\Test\',test_name,'.mat');
 end
-    
-i=1;
-for c= max_cuts:-1:min_cuts
-   
+
+for i= 1:length(data_dir)-2
+   data_name = data_dir(i).name;
+   data = (load(strcat(dir_name,'\Reference\',reference, '.mat')));
+
+
     fprintf('\n\nTest number %d\n',i);
     
     if (cte_frame ~= 0) && (cte_overlap == 0) %diferentes overlaps (mismo frame)
