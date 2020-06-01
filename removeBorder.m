@@ -10,25 +10,35 @@ function [nB_ground_Truth, nB_Montage] = removeBorder(dir, ground_Truth, Montage
     [m_height, m_width, m_depth] = size(Montage);
 %     gT_cut_width = ceil(guardar*m_width-((guardar-1)*xoverlap));
 %     gT_cut_height = ceil(guardar*m_height-((guardar-1)*yoverlap));
-    gT_cut_width = m_width;
-    gT_cut_height = m_height;
+    if (gT_height>=m_height)
+        cut_height = m_height;
+    elseif (m_height>=gT_height)
+        cut_height = gT_height; 
+    end
+    if (gT_width>=m_width) 
+        cut_width = m_width;
+    elseif (m_width>=gT_width) 
+        cut_width = gT_width;
+    end
     
     %Ground Truth without border (overlap) has to be smaller than
     %montage image
-    if (m_width>=gT_cut_width) &&(m_height>=gT_cut_height) &&(gT_depth==m_depth)
+    if (gT_depth==m_depth)
         for c = 1:gT_depth
             %Ground Truth
     %         gT_horizontal_Coordenates = ceil((gT_width - gT_cut_width)/2);
     %         gT_vertical_Coordenates = ceil((gT_height - gT_cut_height)/2);
             gT_horizontal_Coordenates = 0;
             gT_vertical_Coordenates = 0;
-            nB_ground_Truth(:,:,c) = imcrop(ground_Truth(:,:,c),[gT_horizontal_Coordenates gT_vertical_Coordenates gT_cut_width gT_cut_height]);
+            nB_ground_Truth(:,:,c) = imcrop(ground_Truth(:,:,c),[gT_horizontal_Coordenates gT_vertical_Coordenates cut_width cut_height]);
 
 
             %Montage
-            m_horizontal_Coordenates = ceil((m_width - gT_cut_width)/2);
-            m_vertical_Coordenates = ceil((m_height - gT_cut_height)/2);
-            nB_Montage(:,:,c) = imcrop(Montage(:,:,c),[m_horizontal_Coordenates m_vertical_Coordenates gT_cut_width gT_cut_height]);
+%             m_horizontal_Coordenates = ceil((m_width - gT_cut_width)/2);
+%             m_vertical_Coordenates = ceil((m_height - gT_cut_height)/2);
+            m_horizontal_Coordenates = 0;
+            m_vertical_Coordenates = 0;
+            nB_Montage(:,:,c) = imcrop(Montage(:,:,c),[m_horizontal_Coordenates m_vertical_Coordenates cut_width cut_height]);
         end
 
 

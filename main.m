@@ -33,8 +33,8 @@ max_cuts = ceil((0.94-FOVD)/(0.94-1)); %94% es lo que usaron la gente del paper 
 
 %% TEST BENCH
 %Select 0 if want it to variate. Select a number if wanted constant
-cte_frame = 0; 
-cte_overlap = 0.94;
+cte_frame = 2; 
+cte_overlap = 0;
 if (cte_frame ~= 0) && (cte_overlap == 0) %diferentes overlaps (mismo frame)
     test_name = strcat('Test_Data_',reference,'_x',num2str(FOVD),'_',num2str(cte_frame),'x',num2str(cte_frame));
     test_dir = strcat(dir_name,'\Test\',test_name,'.mat');
@@ -50,10 +50,10 @@ for c= min_cuts:max_cuts
     
     if (cte_frame ~= 0) && (cte_overlap == 0) %diferentes overlaps (mismo frame)
         frames(i)= cte_frame;
-        overlap(i) = 1-((c-FOVD)/(c-1)); %Same for both X and Y
+        overlap(i) = (c-FOVD)/(c-1); %Same for both X and Y
         fprintf('Overlap percentaje in X axis is %.2f %% and in Y axis is %.2f %%\n',overlap(i)*100,overlap(i)*100);
     elseif (cte_frame == 0) && (cte_overlap ~= 0) %diferentes frames (mismo overlap)
-        frames(i)= c;
+        frames(i)= c-1;
         overlap(i) = cte_overlap; %Same for both X and Y
         fprintf('Frames in X axis are %d and in Y axis are %d \n',frames(i),frames(i));
     end
@@ -74,14 +74,14 @@ for c= min_cuts:max_cuts
         final_Montage = montageRowCol(single_test_dir,c,gT_depth); 
     elseif option ==2
 %       final_Montage = montageImages(dir,save);
-        final_Montage = montageImages(single_test_dir,0);
+        final_Montage = montageImages(single_test_dir,1);
     end
 %     Montage8Bit = uint8(255 * mat2gray(final_Montage));%From double to uint8
 
 
     %3. Cut Borders
     %[nB_ground_Truth, nB_Montage] = removeBorder(dir, ground_Truth, mosaic, frame, xoverlap, yoverlap, save,show)
-    [nB_ground_Truth, nB_Montage] = removeBorder(single_test_dir, ground_Truth, final_Montage, frames(i), overlap(i), overlap(i), 0,0);
+    [nB_ground_Truth, nB_Montage] = removeBorder(single_test_dir, ground_Truth, final_Montage, frames(i), overlap(i), overlap(i), 1,0);
     nB_ground_Truth = im2double(nB_ground_Truth);
     nB_Montage = im2double(nB_Montage);
 
