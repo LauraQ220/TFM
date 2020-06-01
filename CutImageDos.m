@@ -1,8 +1,8 @@
-function CutImageDos(dir, ground_Truth, FOVD, guardar, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
+function CutImageDos(dir, ground_Truth, FOVD, frames, overlap, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
     
     %Calculate overlaps
-    horizontal_Overlap = (horizontal_Cuts-FOVD)/(horizontal_Cuts-1); %Number from 0 to 1 
-    vertical_Overlap = (vertical_Cuts-FOVD)/(vertical_Cuts-1); %Number from 0 to 1
+    horizontal_Overlap = overlap; %Number from 0 to 1 
+    vertical_Overlap = overlap; %Number from 0 to 1
     %fprintf('The overlap percentaje in X axis is %.f %% and in Y axis is %.0f %%\n',horizontal_Overlap*100,vertical_Overlap*100);
     
     if (horizontal_Cuts>=FOVD)&&(vertical_Cuts>=FOVD)&&(FOVD<=100)
@@ -34,7 +34,7 @@ function CutImageDos(dir, ground_Truth, FOVD, guardar, horizontal_Cuts, vertical
                     end
                     %Recortar imagen
                     image = imcrop(ground_Truth(:,:,c),[horizontal_Coordenates vertical_Coordenates cut_Width cut_Height]);
-                    if (x<=guardar)&&(y<=guardar)
+                    if (x<=frames)&&(y<=frames)
                         image_Array(:,:,c,indice) = image;
                         indice = indice +1;
                     end
@@ -44,7 +44,7 @@ function CutImageDos(dir, ground_Truth, FOVD, guardar, horizontal_Cuts, vertical
         
 
         if save ==1  %Save image   
-            SaveChannelsDos(dir,image_Array,guardar,guardar);
+            SaveChannelsDos(dir,image_Array,frames,frames);
 %           SaveChannels(dir,image_Array);
         end
         
