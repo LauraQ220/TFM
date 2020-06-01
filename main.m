@@ -44,13 +44,13 @@ elseif (cte_frame == 0) && (cte_overlap ~= 0) %diferentes frames (mismo overlap)
 end
     
 i=1;
-for c= max_cuts:-1:min_cuts
+for c= min_cuts:max_cuts
    
     fprintf('\n\nTest number %d\n',i);
     
     if (cte_frame ~= 0) && (cte_overlap == 0) %diferentes overlaps (mismo frame)
         frames(i)= cte_frame;
-        overlap(i) = (c-FOVD)/(c-1); %Same for both X and Y
+        overlap(i) = 1-((c-FOVD)/(c-1)); %Same for both X and Y
         fprintf('Overlap percentaje in X axis is %.2f %% and in Y axis is %.2f %%\n',overlap(i)*100,overlap(i)*100);
     elseif (cte_frame == 0) && (cte_overlap ~= 0) %diferentes frames (mismo overlap)
         frames(i)= c;
