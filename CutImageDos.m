@@ -1,4 +1,4 @@
-function CutImageDos(dir, ground_Truth, FOVD, frames, overlap, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
+function [cut_Width , cut_Height] = CutImageDos(dir, ground_Truth, FOVD, frames, overlap, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
     
     %Calculate overlaps
     horizontal_Overlap = overlap; %Number from 0 to 1 

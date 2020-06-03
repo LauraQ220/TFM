@@ -1,10 +1,11 @@
 clear all; close all; clc;
 %% Import data
-
 dir_name = 'C:\Users\ACER\Documents\ULPGC\TFM\02_CODIGOS\Data\';
 Data_dir = dir(dir_name);
 % ground_Truth = imread(strcat('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Reference\',char(Data_dir(3).name)));
 reference = 'RGB';
+want2save = 1;
+want2show = 0;
 ground_Truth1 = (load(strcat(dir_name,'Reference\',reference, '.mat')));
 ground_Truth = ground_Truth1.image;
 [gT_height, gT_width, gT_depth] = size(ground_Truth);
@@ -19,7 +20,7 @@ ground_Truth = ground_Truth1.image;
 % end
 
 %% Define initial values
-FOVD = 4; %Field of View Degradation
+FOVD = 2; %Field of View Degradation
 error_pixels = 8; %Error in pixels for magnification 20x
 error_percentajeX = 0.008; %Error percentaje in X axis for magnification 20x
 error_percentajeY = 0.01; %Error percentaje in Y axis for magnification 20x
@@ -33,14 +34,12 @@ cuts = (min_cuts:max_cuts);
 
 %% TEST BENCH
 %Select 0 if want it to variate. Select a number if wanted constant
-cte_frame = 0; 
-cte_overlap = 0.94;
+cte_frame = 2; 
+cte_overlap = 0;
 if (cte_frame ~= 0) && (cte_overlap == 0) %diferentes overlaps (mismo frame)
     test_name = strcat('Test_Data_',reference,'_x',num2str(FOVD),'_',num2str(cte_frame),'x',num2str(cte_frame));
-    test_dir = strcat(dir_name,'Test\',test_name,'.mat');
 elseif (cte_frame == 0) && (cte_overlap ~= 0) %diferentes frames (mismo overlap)
     test_name = strcat('Test_Data_',reference,'_x',num2str(FOVD),'_',num2str(cte_overlap),'x',num2str(cte_overlap));
-    test_dir = strcat(dir_name,'Test\',test_name,'.mat');
 end
     
 for i = 1:length(cuts)
@@ -61,7 +60,7 @@ for i = 1:length(cuts)
    
 
     %1. Cut Image(Data_dir, ground_Truth, frame, FOVD, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
-     CutImageDos(single_test_dir, ground_Truth, FOVD, frames(i),overlap(i),cuts(i), cuts(i),8,1,0);
+     [cut_Width , cut_Height] = CutImageDos(single_test_dir, ground_Truth, FOVD, frames(i),overlap(i),cuts(i), cuts(i),8,want2save,want2show);
 %      mergeChannels(dir);
 
     %2. Stitch algorithm
@@ -69,17 +68,19 @@ for i = 1:length(cuts)
 
     option = 2;%1: first stich rows and then cols; 2: everything together
     if option ==1
-        final_Montage = montageRowCol(single_test_dir,c,gT_depth); 
+        Montage = montageRowCol(single_test_dir,c,gT_depth); 
     elseif option ==2
 %       final_Montage = montageImages(dir,save);
-        final_Montage = montageImages(single_test_dir,1);
+        Montage = montageImages(single_test_dir,1);
     end
 %     Montage8Bit = uint8(255 * mat2gray(final_Montage));%From double to uint8
-
+    if (want2save == 1) || (want2show == 1)
+        framedMontage = insertRectangle(single_test_dir, Montage, FOVD, frames(i), overlap(i), cut_Width , cut_Height,want2save,want2show);
+    end
 
     %3. Cut Borders
     %[nB_ground_Truth, nB_Montage] = removeBorder(dir, ground_Truth, mosaic, frame, xoverlap, yoverlap, save,show)
-    [nB_ground_Truth, nB_Montage] = removeBorder(single_test_dir, ground_Truth, final_Montage, frames(i), overlap(i), overlap(i), 1,0);
+    [nB_ground_Truth, nB_Montage] = removeBorder(single_test_dir, ground_Truth, Montage, frames(i), overlap(i), overlap(i), want2save,want2show);
     nB_ground_Truth = im2double(nB_ground_Truth);
     nB_Montage = im2double(nB_Montage);
 
@@ -94,11 +95,13 @@ for i = 1:length(cuts)
 
 end
 
-%% Save Variables
-save(test_dir,'reference','overlap','frames','rmseVal','psnrVal','ssimVal');
 
 %% Plot Graphs
-test_dir = strcat(dir_name,'\Graphs\',test_name,'.jpg');
-visualize(0, reference, overlap, frames, rmseVal, psnrVal, ssimVal);
+graph_test_dir = strcat(dir_name,'\Graphs\',test_name,'.jpg');
+figura = visualize(graph_test_dir, reference, overlap, frames, rmseVal, psnrVal, ssimVal);
+
+%% Save Variables
+test_dir = strcat(dir_name,'Test\',test_name,'.mat');
+save(test_dir,'reference','overlap','frames','rmseVal','psnrVal','ssimVal');
 
 fprintf('\nEnd of Test Bench');
