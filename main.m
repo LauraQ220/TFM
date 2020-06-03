@@ -19,7 +19,7 @@ ground_Truth = ground_Truth1.image;
 % end
 
 %% Define initial values
-FOVD = 2; %Field of View Degradation
+FOVD = 4; %Field of View Degradation
 error_pixels = 8; %Error in pixels for magnification 20x
 error_percentajeX = 0.008; %Error percentaje in X axis for magnification 20x
 error_percentajeY = 0.01; %Error percentaje in Y axis for magnification 20x
@@ -95,62 +95,10 @@ for i = 1:length(cuts)
 end
 
 %% Save Variables
-save(test_dir,'overlap','frames','rmseVal','psnrVal','ssimVal');
+save(test_dir,'reference','overlap','frames','rmseVal','psnrVal','ssimVal');
 
 %% Plot Graphs
-
-% Graph for different overlaps
-% overlap = overlap(1:15);
-
-if (cte_frame ~= 0) && (cte_overlap == 0) %diferentes overlaps (mismo frame)
-    subplot(1,3,1);
-    fig1 = plot(overlap, rmseVal);
-    ax = gca;
-    ax.XDir = 'reverse';
-    xlim([0.65 1])
-    % ylim([10 55])
-    title({'Overlap vs RMSE',[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
-    xlabel('Overlap');
-    ylabel('RMSE');
-    subplot(1,3,2);
-    plot(overlap, psnrVal);
-    ax = gca;
-    ax.XDir = 'reverse';
-    xlim([0.65 1])
-    ylim([10 30])
-    title({'Overlap vs PSNR',[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
-    xlabel('Overlap');
-    ylabel('PSNR');
-    subplot(1,3,3);
-    plot(overlap, ssimVal);
-    ax = gca;
-    ax.XDir = 'reverse';
-    xlim([0.65 1])
-    ylim([0 1])
-    title({'Overlap vs SSIM',[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
-    xlabel('Overlap');
-    ylabel('SSIM');
-    saveas(fig1,strcat(dir_name,'\Graphs\',test_name,'.jpg'));
-
-%Graphs for different frames
-% frames = frames(1:15);
-elseif (cte_frame == 0) && (cte_overlap ~= 0) %diferentes frames (mismo overlap)
-    subplot(1,3,1);
-    fig1 = plot(frames, rmseVal);
-    title({'No of Frames vs RMSE',[reference ' ' num2str(100*overlap(1),2) '%']});
-    xlabel('Number of Frames');
-    ylabel('RMSE');
-    subplot(1,3,2);
-    plot(frames, psnrVal);
-    title({'No of Frames vs PSNR',[reference ' ' num2str(100*overlap(1),2) '%']});
-    xlabel('Number of Frames');
-    ylabel('PSNR');
-    subplot(1,3,3);
-    plot(frames, ssimVal);
-    title({'No of Frames vs SSIM',[reference ' ' num2str(100*overlap(1),2) '%']});
-    xlabel('Number of Frames');
-    ylabel('SSIM');
-    saveas(fig1,strcat(dir_name,'\Graphs\',test_name,'.jpg'));
-end
+test_dir = strcat(dir_name,'\Graphs\',test_name,'.jpg');
+visualize(0, reference, overlap, frames, rmseVal, psnrVal, ssimVal);
 
 fprintf('\nEnd of Test Bench');
