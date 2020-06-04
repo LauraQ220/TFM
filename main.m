@@ -65,6 +65,8 @@ for i = start:length(cuts)
     %1. Cut Image(Data_dir, ground_Truth, frame, FOVD, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
      [cut_Width , cut_Height] = CutImageDos(single_test_dir, ground_Truth, FOVD, frames(i),overlap(i),cuts(i), cuts(i),8,want2save,want2show);
 %      mergeChannels(dir);
+    showCuts(single_test_dir, 0, FOVD, frames(i), overlap(i), cut_Width , cut_Height,want2save,want2show)
+
 
     %2. Stitch algorithm
     %      manual_montage = manualMontageImages(dir, c, c);
