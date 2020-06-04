@@ -35,15 +35,17 @@ cuts = (min_cuts:max_cuts);
 
 %% TEST BENCH
 %Select 0 if want it to variate. Select a number if wanted constant
-cte_frame = 2; 
-cte_overlap = 0;
+cte_frame = 0; 
+cte_overlap = 0.94;
 if (cte_frame ~= 0) && (cte_overlap == 0) %diferentes overlaps (mismo frame)
     test_name = strcat('Test_Data_',reference,'_x',num2str(FOVD),'_',num2str(cte_frame),'x',num2str(cte_frame));
+    start = cte_frame;
 elseif (cte_frame == 0) && (cte_overlap ~= 0) %diferentes frames (mismo overlap)
     test_name = strcat('Test_Data_',reference,'_x',num2str(FOVD),'_',num2str(cte_overlap),'x',num2str(cte_overlap));
+    start = 1;
 end
     
-for i = length(cuts):length(cuts)
+for i = start:length(cuts)
    
     fprintf('\n\nTest number %d\n',i);
     
@@ -67,9 +69,18 @@ for i = length(cuts):length(cuts)
     %2. Stitch algorithm
     %      manual_montage = manualMontageImages(dir, c, c);
 
+    
+    %MONITOR_MEMORY_WHOS uses the WHOS command and evaluates inside the BASE
+    %workspace and sums up the bytes.  The output is displayed in MB. Taken
+    %from:
+    % https://de.mathworks.com/matlabcentral/answers/uploaded_files/1861/monitor_memory_whos.m
+    in_mem = monitor_memory_whos;
     tic;
     Montage = montageImages(single_test_dir,1);
-    time(i)=toc;
+    elapsed_time(i)= toc;
+    out_mem = monitor_memory_whos;
+    elapsed_mem (i) = out_mem - in_mem;
+
     
 %     Montage8Bit = uint8(255 * mat2gray(final_Montage));%From double to uint8
     if (want2save == 1) || (want2show == 1)
@@ -93,13 +104,13 @@ for i = length(cuts):length(cuts)
 
 end
 
-
 %% Plot Graphs
-graph_test_dir = strcat(dir_name,'\Graphs\',test_name,'.jpg');
-visualize(graph_test_dir, reference, overlap, frames, cte_frame, cte_overlap, rmseVal, psnrVal, ssimVal);
+% overlap = overlap(1:15);
+% frames = frames(1:15);
+visualize(dir_name, test_name, reference, overlap, frames, cte_frame, cte_overlap, rmseVal, psnrVal, ssimVal);
 
 %% Save Variables
 test_dir = strcat(dir_name,'Test\',test_name,'.mat');
-save(test_dir,'reference','overlap','frames','rmseVal','psnrVal','ssimVal');
+save(test_dir,'reference','overlap','frames','elapsed_time', 'elapsed_mem', 'rmseVal','psnrVal','ssimVal');
 
 fprintf('\nEnd of Test Bench');

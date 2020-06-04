@@ -1,6 +1,6 @@
 function Montage = insertRectangle(single_test_dir, Montage, FOVD, frames, overlap, cut_Width , cut_Height,save,show)
     
-    
+    color = {'blue', 'green', 'red', 'cyan', 'magenta', 'black','black', 'white'};
     %Calculate overlaps
     horizontal_Overlap = overlap; %Number from 0 to 1 
     vertical_Overlap = overlap; %Number from 0 to 1
@@ -28,7 +28,7 @@ function Montage = insertRectangle(single_test_dir, Montage, FOVD, frames, overl
             end
             %Recortar imagen
             if (x<=frames)&&(y<=frames)
-                Montage = insertShape(Montage,'Rectangle',[horizontal_Coordenates vertical_Coordenates cut_Width cut_Height],'LineWidth',3);
+                Montage = insertShape(Montage,'Rectangle',[horizontal_Coordenates vertical_Coordenates cut_Width cut_Height],'LineWidth',3, 'Color', color(x));
             end
         end
     end
