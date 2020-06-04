@@ -1,4 +1,5 @@
 clear all; close all; clc;
+
 %% Import data
 dir_name = 'C:\Users\ACER\Documents\ULPGC\TFM\02_CODIGOS\Data\';
 Data_dir = dir(dir_name);
@@ -42,7 +43,7 @@ elseif (cte_frame == 0) && (cte_overlap ~= 0) %diferentes frames (mismo overlap)
     test_name = strcat('Test_Data_',reference,'_x',num2str(FOVD),'_',num2str(cte_overlap),'x',num2str(cte_overlap));
 end
     
-for i = 1:length(cuts)
+for i = length(cuts):length(cuts)
    
     fprintf('\n\nTest number %d\n',i);
     
@@ -66,13 +67,10 @@ for i = 1:length(cuts)
     %2. Stitch algorithm
     %      manual_montage = manualMontageImages(dir, c, c);
 
-    option = 2;%1: first stich rows and then cols; 2: everything together
-    if option ==1
-        Montage = montageRowCol(single_test_dir,c,gT_depth); 
-    elseif option ==2
-%       final_Montage = montageImages(dir,save);
-        Montage = montageImages(single_test_dir,1);
-    end
+    tic;
+    Montage = montageImages(single_test_dir,1);
+    time(i)=toc;
+    
 %     Montage8Bit = uint8(255 * mat2gray(final_Montage));%From double to uint8
     if (want2save == 1) || (want2show == 1)
         framedMontage = insertRectangle(single_test_dir, Montage, FOVD, frames(i), overlap(i), cut_Width , cut_Height,want2save,want2show);
@@ -98,7 +96,7 @@ end
 
 %% Plot Graphs
 graph_test_dir = strcat(dir_name,'\Graphs\',test_name,'.jpg');
-figura = visualize(graph_test_dir, reference, overlap, frames, rmseVal, psnrVal, ssimVal);
+visualize(graph_test_dir, reference, overlap, frames, cte_frame, cte_overlap, rmseVal, psnrVal, ssimVal);
 
 %% Save Variables
 test_dir = strcat(dir_name,'Test\',test_name,'.mat');

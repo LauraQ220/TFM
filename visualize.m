@@ -1,20 +1,11 @@
-function h1 = visualize(test_dir, reference, overlap, frames, rmseVal, psnrVal, ssimVal)
-    cte_frame = 0;
-    cte_overlap = 0;
-
-    if (frames(1) == frames(length(frames))) && (overlap(1) ~= overlap(length(overlap))) %diferentes overlaps (mismo frame)
-        cte_frame = frames(1);
-    elseif (frames(1) ~= frames(length(frames))) && (overlap(1) == overlap(length(overlap))) %diferentes frames (mismo overlap)
-        cte_overlap = overlap(1);
-    end
+function visualize(graph_test_dir, reference, overlap, frames, cte_frame, cte_overlap, rmseVal, psnrVal, ssimVal)
 
     % Graph for different overlaps
     % overlap = overlap(1:15);
 
     if (cte_frame ~= 0) && (cte_overlap == 0) %diferentes overlaps (mismo frame)
-        h1 = figure;
         subplot(1,3,1);
-        plot(overlap, rmseVal);
+        h1 = plot(overlap, rmseVal);
         ax = gca;
         ax.XDir = 'reverse';
         xlim([0.65 1])
@@ -44,9 +35,8 @@ function h1 = visualize(test_dir, reference, overlap, frames, rmseVal, psnrVal, 
     %Graphs for different frames
     % frames = frames(1:15);
     elseif (cte_frame == 0) && (cte_overlap ~= 0) %diferentes frames (mismo overlap)
-        h1 = figure(1);
         subplot(1,3,1);
-        plot(frames, rmseVal);
+        h1 = plot(frames, rmseVal);
         title({'No of Frames vs RMSE',[reference ' ' num2str(100*overlap(1),2) '%']});
         xlabel('Number of Frames');
         ylabel('RMSE');
@@ -63,6 +53,6 @@ function h1 = visualize(test_dir, reference, overlap, frames, rmseVal, psnrVal, 
     else
         fprintf('Error in constant frame (%d) or overlap (%d)',frames(1),overlap(1));
     end
-        saveas(h1,test_dir);
+        saveas(h1,graph_test_dir);
 
 end
