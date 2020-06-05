@@ -42,16 +42,35 @@ function [cut_Width , cut_Height] = CutImageDos(dir, ground_Truth, FOVD, frames,
             end
         end
         
-
-        if save ==1  %Save image   
-            SaveChannelsDos(dir,image_Array,frames,frames);
-%           SaveChannels(dir,image_Array);
+        
+        if save ==1  %Save image
+            if (frames < vertical_Cuts) && (frames < horizontal_Cuts)
+                SaveChannelsDos(dir,image_Array,frames,frames);
+    %           SaveChannels(dir,image_Array);
+            else
+                SaveChannelsDos(dir,image_Array,vertical_Cuts,horizontal_Cuts);
+            end
         end
         
         if show ==1 %Show image
+            if (frames < vertical_Cuts) && (frames < horizontal_Cuts)
+                rows = frames;
+                cols = frames;
+            else
+                rows = horizontal_Cuts;
+                cols = vertical_Cuts;
+            end
+            idx1 = 1;
+            for c=0:cols-1
+                for  r= 0:rows-1
+                    idx2 = cols*r+c+1;
+                    image_Array2(:,:,:,idx2) = image_Array(:,:,:,idx1);
+                    idx1 = idx1+1;
+                end
+            end        
             for i=1:(indice-1)
-                subplot(vertical_Cuts,horizontal_Cuts,i)
-                imagesc(image_Array(:,:,:,i));
+                subplot(cols,rows,i)
+                imagesc(image_Array2(:,:,:,i));
                 xticks([]) %Remove x axis
                 yticks([])%Remove y axis
             end

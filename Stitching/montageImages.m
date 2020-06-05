@@ -21,10 +21,12 @@ function montage = montageImages(Data_dir,save)
         end
     end
 
-    original_frames = double(original_frames)/255; %Normaliza la imagen
+%     original_frames = double(original_frames)/255; %Normaliza la imagen
 
-    yres = size(original_frames,  1);%tamaño de x axis
-    xres = size(original_frames,  2);%tamaño de y axis
+
+%     [yres, xres] = size(original_frames (:,:,1,1));
+    yres = size(original_frames(:,:,1,1),  1);%tamaño de x axis
+    xres = size(original_frames(:,:,1,1),  2);%tamaño de y axis
 
 
     %% If a GPU device is available, use it for increased calculation speed

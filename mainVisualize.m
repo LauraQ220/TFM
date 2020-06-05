@@ -2,10 +2,10 @@ clear all; close all; clc;
 
 %% Insert Parameters
 dir_name = 'C:\Users\ACER\Documents\ULPGC\TFM\02_CODIGOS\Data\';
-reference = 'Gray';
+reference = 'RGB';
 FOVD = 2; %Field of View Degradation
-cte_frame = 0; 
-cte_overlap = 0.94;
+cte_frame = 2; 
+cte_overlap = 0;
 if (cte_frame ~= 0) && (cte_overlap == 0) %diferentes overlaps (mismo frame)
     test_name = strcat('Test_Data_',reference,'_x',num2str(FOVD),'_',num2str(cte_frame),'x',num2str(cte_frame));
 elseif (cte_frame == 0) && (cte_overlap ~= 0) %diferentes frames (mismo overlap)

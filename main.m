@@ -4,10 +4,10 @@ clear all; close all; clc;
 dir_name = 'C:\Users\ACER\Documents\ULPGC\TFM\02_CODIGOS\Data\';
 Data_dir = dir(dir_name);
 % ground_Truth = imread(strcat('C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\Data\Reference\',char(Data_dir(3).name)));
-reference = 'RGB';
-want2save = 1;
+reference = '11';
+want2save = 0;
 want2show = 0;
-ground_Truth1 = (load(strcat(dir_name,'Reference\',reference, '.mat')));
+ground_Truth1 = load(strcat(dir_name, 'Reference\',reference,'.mat'));
 ground_Truth = ground_Truth1.image;
 [gT_height, gT_width, gT_depth] = size(ground_Truth);
 
@@ -29,23 +29,26 @@ error_percentaje = error_percentajeY; %Most restrictive one
 
 %ceil(a) rounds each element a to the nearest integer >= than element a.
 min_cuts = ceil((error_percentaje-FOVD)/(error_percentaje-1)); %El error marca el minimo solape
+% min_cuts = 2; 
 max_cuts = ceil((0.94-FOVD)/(0.94-1)); %94% es lo que usaron la gente del paper y tratamos de disminuir
 cuts = (min_cuts:max_cuts);
     
 
 %% TEST BENCH
 %Select 0 if want it to variate. Select a number if wanted constant
-cte_frame = 0; 
-cte_overlap = 0.94;
+cte_frame = 2; 
+cte_overlap = 0;
+start = 1;
 if (cte_frame ~= 0) && (cte_overlap == 0) %diferentes overlaps (mismo frame)
     test_name = strcat('Test_Data_',reference,'_x',num2str(FOVD),'_',num2str(cte_frame),'x',num2str(cte_frame));
-    start = cte_frame;
+    fprintf('Constant frames in X axis are %d and in Y axis are %d \n',cte_frame,cte_frame);
+%     start = cte_frame;
 elseif (cte_frame == 0) && (cte_overlap ~= 0) %diferentes frames (mismo overlap)
     test_name = strcat('Test_Data_',reference,'_x',num2str(FOVD),'_',num2str(cte_overlap),'x',num2str(cte_overlap));
-    start = 1;
+    fprintf('Constant overlap percentaje in X axis is %.2f %% and in Y axis is %.2f %%\n',cte_overlap*100,cte_overlap*100);
 end
     
-for i = start:length(cuts)
+for i = 1:length(cuts)
    
     fprintf('\n\nTest number %d\n',i);
     
@@ -65,7 +68,7 @@ for i = start:length(cuts)
     %1. Cut Image(Data_dir, ground_Truth, frame, FOVD, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
      [cut_Width , cut_Height] = CutImageDos(single_test_dir, ground_Truth, FOVD, frames(i),overlap(i),cuts(i), cuts(i),8,want2save,want2show);
 %      mergeChannels(dir);
-    showCuts(single_test_dir, 0, FOVD, frames(i), overlap(i), cut_Width , cut_Height,want2save,want2show)
+%     showCuts(single_test_dir, Montage, FOVD, frames(i), overlap(i), cut_Width , cut_Height,want2save,want2show)
 
 
     %2. Stitch algorithm
@@ -78,7 +81,7 @@ for i = start:length(cuts)
     % https://de.mathworks.com/matlabcentral/answers/uploaded_files/1861/monitor_memory_whos.m
     in_mem = monitor_memory_whos;
     tic;
-    Montage = montageImages(single_test_dir,1);
+    Montage = montageImages(single_test_dir,want2save);
     elapsed_time(i)= toc;
     out_mem = monitor_memory_whos;
     elapsed_mem (i) = out_mem - in_mem;

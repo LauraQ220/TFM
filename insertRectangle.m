@@ -1,12 +1,15 @@
-function Montage = insertRectangle(single_test_dir, Montage, FOVD, frames, overlap, cut_Width , cut_Height,save,show)
+function Montage = insertRectangle(single_test_dir, Montage, FOVD, frames, overlap, save,show)
     
     %Diferent color for each square
     color = {'blue', 'green', 'red', 'cyan', 'magenta', 'black','black', 'white'};
     color_idx = 1;
     %Calculate overlaps
+    [height, width, depth] = size(Montage);
     horizontal_Overlap = overlap; %Number from 0 to 1 
     vertical_Overlap = overlap; %Number from 0 to 1
-    [height, width, depth] = size(Montage);
+    cut_Width = (width/(1+(horizontal_Overlap-1)*(frames-1)));
+    cut_Height = (height/(1+(vertical_Overlap-1)*(frames-1)));
+
 
     %Loop para recotar por el eje X
     for x=1:frames
