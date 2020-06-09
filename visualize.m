@@ -1,4 +1,4 @@
-function visualize(dir_name, test_name, reference, overlap, frames, cte_frame, cte_overlap, rmseVal, psnrVal, ssimVal)
+function visualize(dir_name, A, B, test_name, reference, overlap, frames, cte_frame, cte_overlap, rmseVal, psnrVal, ssimVal)
 
 
     % Graph for different overlaps
@@ -12,7 +12,7 @@ function visualize(dir_name, test_name, reference, overlap, frames, cte_frame, c
         ax1.XDir = 'reverse';
         xlim([0.65 1])
         % ylim([10 55])
-        title({'Overlap vs RMSE',[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
+        title({[A 'vs' B ],[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
         xlabel('Overlap');
         ylabel('RMSE');
        %PSNR
@@ -22,7 +22,7 @@ function visualize(dir_name, test_name, reference, overlap, frames, cte_frame, c
         ax2.XDir = 'reverse';
         xlim([0.65 1])
         ylim([10 30])
-        title({'Overlap vs PSNR',[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
+        title({[A 'vs' B ],[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
         xlabel('Overlap');
         ylabel('PSNR');
        %SSIM
@@ -32,7 +32,7 @@ function visualize(dir_name, test_name, reference, overlap, frames, cte_frame, c
         ax3.XDir = 'reverse';
         xlim([0.65 1])
         ylim([0 1])
-        title({'Overlap vs SSIM',[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
+        title({[A 'vs' B ],[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
         xlabel('Overlap');
         ylabel('SSIM'); 
         % Prepare subplots
@@ -55,7 +55,7 @@ function visualize(dir_name, test_name, reference, overlap, frames, cte_frame, c
         ax1 = gca;
 %         xlim([0.65 1])
         % ylim([10 55])
-        title({'No of Frames vs RMSE',[reference ' ' num2str(100*overlap(1),2) '%']});
+        title({[A 'vs' B ],[reference ' ' num2str(100*overlap(1),2) '%']});
         xlabel('Number of Frames');
         ylabel('RMSE');
         %PSNR
@@ -64,7 +64,7 @@ function visualize(dir_name, test_name, reference, overlap, frames, cte_frame, c
         ax2 = gca;
 %         xlim([0.65 1])
 %         ylim([10 30])
-        title({'No of Frames vs PSNR',[reference ' ' num2str(100*overlap(1),2) '%']});
+        title({[A 'vs' B ],[reference ' ' num2str(100*overlap(1),2) '%']});
         xlabel('Number of Frames');
         ylabel('PSNR');
         %SSIM
@@ -73,7 +73,7 @@ function visualize(dir_name, test_name, reference, overlap, frames, cte_frame, c
         ax3 = gca;
 %         xlim([0.65 1])
 %         ylim([0 1])
-        title({'No of Frames vs SSIM',[reference ' ' num2str(100*overlap(1),2) '%']});
+        title({[A 'vs' B ],[reference ' ' num2str(100*overlap(1),2) '%']});
         xlabel('Number of Frames');
         ylabel('SSIM');
         % Prepare subplots

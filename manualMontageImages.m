@@ -1,5 +1,6 @@
-function mon = manualMontageImages(Data_dir, cols, rows)
-   
+function mon = manualMontageImages(Data_dir, cols, rows, save, show)
+    
+    mergeChannels(Data_dir);
     Frame_dir = dir(strcat(Data_dir,'\ChannelsMerged'));
     n_frames = length(Frame_dir)-2;
         
@@ -17,7 +18,29 @@ function mon = manualMontageImages(Data_dir, cols, rows)
             end         
     end
     
+    %Manual stitch
+    idx = 1;
+    for l = 1:rows
+        C = [];
+        for n=1:cols
+            C= [C original_frames(:,:,:,idx)];
+            idx = idx+1;
+        end
+        filas(:,:,:,l) = C;
+    end
+    idx2=1;
+    mon = [];
+    for m=1:rows
+        mon = [mon; filas(:,:,:,idx2)];
+        idx2 = idx2+1;
+    end 
+    
     %Paste frames one next to each other
-    mon = montage(original_frames);
+    if save==1
+        imwrite(mon, strcat(Data_dir, '\manual_Mosaic.png'));
+    end
+    if show==1
+        mon = montage(original_frames);
+    end
 
 end

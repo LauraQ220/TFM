@@ -6,8 +6,8 @@ function montage = montageImages(Data_dir,save)
 
 %     Data_dir = 'C:\Users\ACER\Documents\ULPGC\TFM\02 CODIGOS\1stOverlap\Data\Test_Data_x2_20x20_0.95x0.95'; % Data Directory
 %     Data_dir = 'Test_Data';
-
-    channel_dirs = dir(strcat(Data_dir,'\Channels'));
+    name = strcat(Data_dir,'\Channels');
+    channel_dirs = dir(name);
     %Data Directory has a sub-folder for each data channel
     n_channels = length(channel_dirs) - 2;
     
@@ -21,12 +21,12 @@ function montage = montageImages(Data_dir,save)
         end
     end
 
-%     original_frames = double(original_frames)/255; %Normaliza la imagen
+    original_frames = double(original_frames)/255; %Normaliza la imagen
 
 
 %     [yres, xres] = size(original_frames (:,:,1,1));
-    yres = size(original_frames(:,:,1,1),  1);%tamaño de x axis
-    xres = size(original_frames(:,:,1,1),  2);%tamaño de y axis
+    yres = size(original_frames,  1);%tamaño de x axis
+    xres = size(original_frames,  2);%tamaño de y axis
 
 
     %% If a GPU device is available, use it for increased calculation speed

@@ -13,9 +13,9 @@ function mergeChannels(parentFolder)
     
     for f = 0:n_frames-1
         for j = 1:n_channels
-            mosaics(:,:,j) = imread(strcat(parentFolder,'\Channels\Ch',num2str(j),'\frame',num2str(f),'.tif'));
+            mosaics(:,:,j,f+1) = imread(strcat(parentFolder,'\Channels\Ch',num2str(j),'\frame',num2str(f),'.tif'));
         end
-        imwrite(mosaics, strcat(parentFolder,'\ChannelsMerged\frame',num2str(f),'.tif'));
+        imwrite(mosaics(:,:,:,f+1), strcat(parentFolder,'\ChannelsMerged\frame',num2str(f),'.tif'));
     end
     fprintf('Finished merging!');
 end
