@@ -40,7 +40,7 @@ function mon = manualMontageImages(Data_dir, cols, rows, save, show)
         imwrite(mon, strcat(Data_dir, '\manual_Mosaic.png'));
     end
     if show==1
-        mon = montage(original_frames);
+        imshow(mon);
     end
 
 end

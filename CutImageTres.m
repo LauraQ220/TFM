@@ -1,14 +1,23 @@
-function [cut_Width , cut_Height] = CutImageDos(dir, ground_Truth, FOVD, frames, overlap, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
+function [cut_Width , cut_Height] = CutImageTres(dir, gt_image, FOVD, frames, overlap, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
     
+    [gT_height, gT_width, gT_depth] = size(gt_image);
     %Calculate overlaps
     horizontal_Overlap = overlap; %Number from 0 to 1 
     vertical_Overlap = overlap; %Number from 0 to 1
     %fprintf('The overlap percentaje in X axis is %.f %% and in Y axis is %.0f %%\n',horizontal_Overlap*100,vertical_Overlap*100);
-    %Add black frame for error case    
+    %Add black frame for error case
+%     ground_Truth = zeros(gT_height+(2*error_pixels), gT_width+(2*error_pixels),gT_depth);
+    for c = 1:gT_depth
+        A = zeros(gT_height, error_pixels);
+        C = [A gt_image(:,:,c) A];
+        B = zeros(error_pixels, gT_width+(2*error_pixels));
+        ground_Truth(:,:,c) = [B; C; B];
+    end
+    
  
     
     if (horizontal_Cuts>=FOVD)&&(vertical_Cuts>=FOVD)&&(FOVD<=100)
-        [gT_height, gT_width, gT_depth] = size(ground_Truth);
+         
         cut_Height = round(gT_height/FOVD)-1;
         cut_Width = round(gT_width/FOVD)-1;
         for c = 1:gT_depth

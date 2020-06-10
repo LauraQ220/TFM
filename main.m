@@ -9,6 +9,7 @@ want2save = 1;
 want2show = 0;
 ground_Truth1 = load(strcat(dir_name, 'Reference\',reference,'.mat'));
 ground_Truth = ground_Truth1.image;
+ground_Truth = im2double(ground_Truth);
 [gT_height, gT_width, gT_depth] = size(ground_Truth);
 
 %% Select bands
@@ -58,7 +59,6 @@ end
  
 %% Automatic montage
 for i = 1:length(cuts)
-   
     fprintf('\n\nTest number %d\n',i);
 %     i = j-length(cuts)+1;
     if (cte_frame ~= 0) && (cte_overlap == 0) %diferentes overlaps (mismo frame)
@@ -75,7 +75,7 @@ for i = 1:length(cuts)
    
 
     %1. Cut Image(Data_dir, ground_Truth, frame, FOVD, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
-     [cut_Width , cut_Height] = CutImageDos(single_test_dir, ground_Truth, FOVD, frames(i),overlap(i),cuts(i), cuts(i),8,1,want2show);
+     [cut_Width , cut_Height] = CutImageDos(single_test_dir, ground_Truth, FOVD, frames(i),overlap(i),cuts(i), cuts(i),8,0,want2show);
      %      mergeChannels(dir);
 %     showCuts(single_test_dir, Montage, FOVD, frames(i), overlap(i), cut_Width , cut_Height,want2save,want2show)
 
