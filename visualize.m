@@ -1,4 +1,4 @@
-function visualize(dir_name, A, B, test_name, reference, overlap, frames, cte_frame, cte_overlap, rmseVal, psnrVal, ssimVal)
+function visualize(dir_name, test_name, reference, overlap, frames, cte_frame, cte_overlap, rmseVal, psnrVal, ssimVal, manual_rmseVal, manual_psnrVal, manual_ssimVal)
 
 
     % Graph for different overlaps
@@ -10,9 +10,11 @@ function visualize(dir_name, A, B, test_name, reference, overlap, frames, cte_fr
         plot(overlap, rmseVal);
         ax1 = gca;
         ax1.XDir = 'reverse';
-        xlim([0.65 1])
+%         xlim([0.65 1])
         % ylim([10 55])
-        title({[A 'vs' B ],[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
+%         title({[A 'vs' B ],[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
+        title({'Overlap vs RMSE';[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
+        annotation('textbox', [0 0 1 1], 'String', strcat('manual_rmseVal = ', num2str(manual_rmseVal)));
         xlabel('Overlap');
         ylabel('RMSE');
        %PSNR
@@ -20,9 +22,11 @@ function visualize(dir_name, A, B, test_name, reference, overlap, frames, cte_fr
         plot(overlap, psnrVal);
         ax2 = gca;
         ax2.XDir = 'reverse';
-        xlim([0.65 1])
-        ylim([10 30])
-        title({[A 'vs' B ],[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
+%         xlim([0.65 1])
+%         ylim([10 30])
+%         title({[A 'vs' B ],[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
+        title({'Overlap vs PSNR';[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
+        annotation('textbox', [0 0 1 1], 'String', strcat('manual_psnrVal = ', num2str(manual_psnrVal)));
         xlabel('Overlap');
         ylabel('PSNR');
        %SSIM
@@ -30,14 +34,18 @@ function visualize(dir_name, A, B, test_name, reference, overlap, frames, cte_fr
         plot(overlap, ssimVal);
         ax3 = gca;
         ax3.XDir = 'reverse';
-        xlim([0.65 1])
-        ylim([0 1])
-        title({[A 'vs' B ],[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
+%         xlim([0.65 1])
+%         ylim([0 1])
+%         title({[A 'vs' B ],[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
+        title({'Overlap vs SSIM';[reference ' ' num2str(frames(1)) 'x' num2str(frames(1)) ' frames']});
+        annotation('textbox', [0 0 1 1], 'String', strcat('manual_ssimVal = ', num2str(manual_ssimVal)));
         xlabel('Overlap');
         ylabel('SSIM'); 
         % Prepare subplots
         % test1.fig and test2.fig are the names of the figure files which you would % like to copy into multiple subplots
         h4 = figure('Renderer', 'painters', 'Position', [10 10 1500 600]); %create new figure
+        name =['manual_rmseVal = ' num2str(manual_rmseVal);'manual_psnrVal = ' num2str(manual_psnrVal);'manual_ssimVal = ' num2str(manual_ssimVal)];
+        annotation('textbox', [0 0 1 1], 'String', name);
         s1 = subplot(1,3,1,'parent',h4);
         s2 = subplot(1,3,2,'parent',h4);
         s3 = subplot(1,3,3,'parent',h4);
@@ -55,7 +63,9 @@ function visualize(dir_name, A, B, test_name, reference, overlap, frames, cte_fr
         ax1 = gca;
 %         xlim([0.65 1])
         % ylim([10 55])
-        title({[A 'vs' B ],[reference ' ' num2str(100*overlap(1),2) '%']});
+%         title({[A 'vs' B ],[reference ' ' num2str(100*overlap(1),2) '%']});
+        title({'No of frames vs RMSE';[reference ' ' num2str(100*overlap(1),2) '%']});
+        annotation('textbox', [0 0 1 1], 'String', strcat('manual_rmseVal = ', num2str(manual_rmseVal)));
         xlabel('Number of Frames');
         ylabel('RMSE');
         %PSNR
@@ -64,7 +74,9 @@ function visualize(dir_name, A, B, test_name, reference, overlap, frames, cte_fr
         ax2 = gca;
 %         xlim([0.65 1])
 %         ylim([10 30])
-        title({[A 'vs' B ],[reference ' ' num2str(100*overlap(1),2) '%']});
+%         title({[A 'vs' B ],[reference ' ' num2str(100*overlap(1),2) '%']});
+        title({'No of frames vs PSNR';[reference ' ' num2str(100*overlap(1),2) '%']});
+        annotation('textbox', [0 0 1 1], 'String', strcat('manual_psnrVal = ', num2str(manual_psnrVal)));
         xlabel('Number of Frames');
         ylabel('PSNR');
         %SSIM
@@ -73,12 +85,15 @@ function visualize(dir_name, A, B, test_name, reference, overlap, frames, cte_fr
         ax3 = gca;
 %         xlim([0.65 1])
 %         ylim([0 1])
-        title({[A 'vs' B ],[reference ' ' num2str(100*overlap(1),2) '%']});
+%         title({[A 'vs' B ],[reference ' ' num2str(100*overlap(1),2) '%']});
+        title({'No of frames vs SSIM';[reference ' ' num2str(100*overlap(1),2) '%']});
+        annotation('textbox', [0 0 1 1], 'String', strcat('manual_ssimVal = ', num2str(manual_ssimVal)));
         xlabel('Number of Frames');
         ylabel('SSIM');
         % Prepare subplots
         % test1.fig and test2.fig are the names of the figure files which you would % like to copy into multiple subplots
         h4 = figure('Renderer', 'painters', 'Position', [10 10 1500 600]); %create new figure
+        name =['manual_rmseVal = ' num2str(manual_rmseVal);'manual_psnrVal = ' num2str(manual_psnrVal);'manual_ssimVal = ' num2str(manual_ssimVal)];
         s1 = subplot(1,3,1,'parent',h4);
         s2 = subplot(1,3,2,'parent',h4);
         s3 = subplot(1,3,3,'parent',h4);

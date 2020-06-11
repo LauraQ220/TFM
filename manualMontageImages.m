@@ -42,5 +42,5 @@ function mon = manualMontageImages(Data_dir, cols, rows, save, show)
     if show==1
         imshow(mon);
     end
-
+    fprintf('\nFinish montage!\n');
 end
