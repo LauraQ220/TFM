@@ -1,6 +1,5 @@
-function psnrVal = psnrFun(img1,img2, rmseVal)
+function psnrVal = psnrFun(img1,rmseVal)
     img1 = im2double(img1);
-    img2 = im2double(img2);
 
     [height, width, depth] = size(img1);
     maxf = 0;

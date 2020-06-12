@@ -1,5 +1,6 @@
 function [cut_Width , cut_Height] = CutImageTres(dir, gt_image, FOVD, frames, overlap, horizontal_Cuts, vertical_Cuts,error_pixels, save,show)
     
+
     [gT_height, gT_width, gT_depth] = size(gt_image);
     %Calculate overlaps
     horizontal_Overlap = overlap; %Number from 0 to 1 
@@ -15,6 +16,7 @@ function [cut_Width , cut_Height] = CutImageTres(dir, gt_image, FOVD, frames, ov
     end
     
     %Error movement has to be de same for the diferent bands
+    rng (0, 'twister'); %inicializar la semilla siempre igual
     for a=1:horizontal_Cuts*vertical_Cuts
        error(a) =  round(2*error_pixels.*rand(1,1) - error_pixels); 
     end

@@ -1,8 +1,6 @@
 function rmseVal = rmseFun(img1,img2)
-
     img1 = im2double(img1);
     img2 = im2double(img2);
-
     [height, width, depth] = size(img1);
     sum = 0;
     for d = 1:depth
@@ -14,5 +12,4 @@ function rmseVal = rmseFun(img1,img2)
     end
     mean_se = sum/(depth*width*height);
     rmseVal = sqrt(mean_se);
-
 end
