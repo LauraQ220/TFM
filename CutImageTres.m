@@ -62,10 +62,10 @@ function [cut_Width , cut_Height] = CutImageTres(dir, gt_image, FOVD, frames, ov
         
         if save ==1  %Save image
             if (frames < vertical_Cuts) && (frames < horizontal_Cuts)
-                SaveChannelsDos(dir,image_Array,frames,frames);
+                SaveChannelsDos(dir,image_Array,frames,frames, "serpertine");
     %           SaveChannels(dir,image_Array);
             else
-                SaveChannelsDos(dir,image_Array,vertical_Cuts,horizontal_Cuts);
+                SaveChannelsDos(dir,image_Array,vertical_Cuts,horizontal_Cuts, "serpertine");
             end
         end
         

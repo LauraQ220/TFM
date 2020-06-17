@@ -2,25 +2,24 @@ function samVal = samFun(img1,img2)
 % HYPERSAM Computes the spectral angle error (in radians) between two vectors
 
     [height, width, depth] = size(img1);
-    vector1 = [];
-    vector2 = [];
-    for d = 1:depth
-        for w = 1:height
-            vector1 = [vector1 img1(w,:,d)];
-            vector2 = [vector2 img2(w,:,d)];
+    A = [];
+    for w = 1:width
+        for h = 1:height
+            nominador = 0;
+            denominador1 = 0;
+            denominador2 = 0;  
+            for d = 1:depth
+                nominador = nominador + (img1(w,h,d)*img2(w,h,d));
+                denominador1 = denominador1 + (img1(w,h,d)*img1(w,h,d));
+                denominador2 = denominador2 + (img2(w,h,d)*img2(w,h,d)); 
+            end
+            A(w,h) = acos(nominador/((sqrt(denominador1))*(sqrt(denominador2))));
         end
     end  
-    
-    vector1 = transpose(vector1);
-    vector2 = transpose(vector2);
-    
-    
-    [p,N] = size(vector1);
-    errRadians = zeros(1,N);
-    samVal = 0;
-    for k=1:N
-        tmp = vector1(:,k);
-        errRadians(k) = acos(dot(tmp, vector2)/ (norm(vector2) * norm(tmp)));
-        samVal = errRadians(k);
-    end
+%     imshow(A);
+    B = reshape(A, width*height, 1);
+%     nan = sum(isnan(B));
+    suma = nansum(abs(B));
+    samVal = suma/(width*height);
+
 end

@@ -11,14 +11,14 @@ function [nB_ground_Truth, nB_Montage] = removeBorder(dir, ground_Truth, Montage
 %     gT_cut_width = ceil(guardar*m_width-((guardar-1)*xoverlap));
 %     gT_cut_height = ceil(guardar*m_height-((guardar-1)*yoverlap));
     if (gT_height>=m_height)
-        cut_height = m_height;
+        cut_height = m_height-8;
     elseif (m_height>=gT_height)
-        cut_height = gT_height; 
+        cut_height = gT_height-8; 
     end
     if (gT_width>=m_width) 
-        cut_width = m_width;
+        cut_width = m_width-8;
     elseif (m_width>=gT_width) 
-        cut_width = gT_width;
+        cut_width = gT_width-8;
     end
     
     %Ground Truth without border (overlap) has to be smaller than
