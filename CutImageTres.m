@@ -22,10 +22,13 @@ function [cut_Width , cut_Height] = CutImageTres(dir, gt_image, FOVD, frames, ov
     end
     
     
-    if (horizontal_Cuts>=FOVD)&&(vertical_Cuts>=FOVD)&&(FOVD<=100)
-         
+    if  (gT_height == gT_width)    
         cut_Height = round(gT_height/FOVD)-1;
-        cut_Width = round(gT_width/FOVD)-1;              
+        cut_Width = cut_Height; 
+    else
+        fprintf('Non square image\n');
+    end
+    if (horizontal_Cuts>=FOVD)&&(vertical_Cuts>=FOVD)&&(FOVD<=100)
 
         for c = 1:gT_depth
             indice = 1;
@@ -94,7 +97,10 @@ function [cut_Width , cut_Height] = CutImageTres(dir, gt_image, FOVD, frames, ov
             %Plot title
             sgtitle(strcat('FOV Degradation: ',num2str(FOVD),'. Overlap in X axis: ',num2str(round(horizontal_Overlap*100)),'% and in Y axis: ',num2str(round(vertical_Overlap*100)),'%'));
         end
-       
+        
+    elseif (cut_Height==cut_Width)
+        fprintf('Non square frame');
+        
     elseif (FOVD>100)
         fprintf('La magnificación es mayor que 100 --> limitación dada por el paso mas pequeño que puede dar la plataforma\n');
     

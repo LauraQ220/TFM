@@ -46,7 +46,7 @@ function Montage = insertRectangle(single_test_dir, Montage, FOVD, frames, overl
 
 
     if save ==1  %Save image   
-        imwrite(Montage, strcat(single_test_dir, '\framedMosaic.png'));
+        imwrite(Montage, strcat(single_test_dir, '\framedMosaic.tif'));
     end
 
     if show ==1 %Show image

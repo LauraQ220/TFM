@@ -37,7 +37,7 @@ function mon = manualMontageImages(Data_dir, cols, rows, save, show)
     
     %Paste frames one next to each other
     if save==1
-        imwrite(mon, strcat(Data_dir, '\manual_Mosaic.png'));
+        imwrite(mon, strcat(Data_dir, '\manual_Mosaic.tif'));
     end
     if show==1
         imshow(mon);

@@ -51,8 +51,8 @@ function [nB_ground_Truth, nB_Montage] = removeBorder(dir, ground_Truth, Montage
 
     
     if save ==1  %Save image 
-        imwrite(nB_ground_Truth, strcat(dir,'\noBorderGroundTruth.png'));
-        imwrite(nB_Montage, strcat(dir,'\noBorderMosaic.png'));
+        imwrite(nB_ground_Truth, strcat(dir,'\noBorderGroundTruth.tif'));
+        imwrite(nB_Montage, strcat(dir,'\noBorderMosaic.tif'));
     end
         
     if show ==1 %Show image

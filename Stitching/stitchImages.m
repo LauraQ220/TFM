@@ -29,7 +29,7 @@ tic
 active(Aregion(1):Aregion(2),Aregion(3):Aregion(4)) = Frame_Blend(img1g(Aregion(1):Aregion(2),Aregion(3):Aregion(4)),img2g(Aregion(1):Aregion(2),Aregion(3):Aregion(4))); 
 L = active;
 
-% display(['Blending took ',num2str(toc),' secs']);
+display(['Blending took ',num2str(toc),' secs']);
 
 if rgb
     L = repmat(L, 1,1,3);
